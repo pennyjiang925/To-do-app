@@ -1,0 +1,27 @@
+.form-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.input-content {
+  width: 30%;
+  padding: 15px;
+  border-radius: 16px;
+  border: none;
+  margin-right: 10px;
+  box-shadow: 0 0 5px grey;
+}
+
+@media (max-width: 550px) {
+  .input-content {
+    width: 50%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .form-box {
+    margin-top: 50px;
+  }
+}
