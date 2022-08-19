@@ -1,17 +1,25 @@
-import React from "react";
-import { Todos } from "./components/Todos";
-import "./App.css";
-import { TodosContextProvider } from "./TodosContextProvider";
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Navigation } from './components/Nav'
+import Login from './components/Page/Login'
+import Todo from './components/Page/Todo'
+import Register from './components/Page/Register'
+import './App.css'
 
 const App: React.FC = () => {
   return (
-    <TodosContextProvider>
-      <div className="App">
-        <h1>To Do List 2022</h1>
-        <Todos />
-      </div>
-    </TodosContextProvider>
-  );
-};
+    <BrowserRouter>
+      <div className='App'>
+        <Navigation />
 
-export default App;
+        <Routes>
+          <Route path='/' element={<Todo />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  )
+}
+
+export default App
