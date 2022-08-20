@@ -10,6 +10,7 @@ const Todo: React.FC = () => {
     <Navigate to="/login" />
   ) : (
     <TodosContextProvider>
+      <h1>TO DO List 2022</h1>
       <Todos />
     </TodosContextProvider>
   );
