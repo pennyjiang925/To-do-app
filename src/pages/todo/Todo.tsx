@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { TodosContextProvider } from "../../TodosContextProvider";
-import { Todos } from "../Todos";
+import { Todos } from "../../components/Todos";
 
 const Todo: React.FC = () => {
   const token = localStorage.getItem("token");

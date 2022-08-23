@@ -11,11 +11,17 @@
   background-color: #fff;
 }
 
-.title{
+.title {
   text-align: center;
   margin-bottom: 40px;
 }
 
-.login .form-control{
+.login .form-control {
   margin-bottom: 12px;
+}
+
+.auth-option {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
 }
