@@ -2,6 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 import App from "./App";
+import { TodoService } from "./TodoService";
+
+window.env = {
+  BASE_URL: "https://api-nodejs-todolist.herokuapp.com",
+};
+
+export const todoService = TodoService.create(window.env.BASE_URL);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

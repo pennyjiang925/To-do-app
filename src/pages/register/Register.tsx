@@ -1,116 +1,190 @@
-import { FormEvent, useState } from "react";
-import axios from "axios";
-
+import { useState, useEffect } from "react";
+// import axios from 'axios'
+import { todoService } from "../../index";
 import { TextField, Button, Snackbar, Alert } from "@mui/material";
 import { useNavigate, Link } from "react-router-dom";
 import "./register.css";
 
-interface userInfo {
+interface UserInfo {
   username: string;
   email: string;
   password: string;
-  confirmpassword: string;
+  cofirmpassword: string;
 }
+
+const NAME_REGEX = /^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/;
+const EMAIL_REGEX = /\S+@\S+\.\S+/;
 
 const Register = () => {
   const navigate = useNavigate();
 
-  const [info, setInfo] = useState<userInfo>({
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const [userNameFocus, setUserNameFocus] = useState(false);
+  const [nameMessage, setNameMessage] = useState("");
+  const [emailFocus, setEmailFocus] = useState(false);
+  const [emailMessage, setEmailMessage] = useState("");
+  const [passwordFocus, setPasswordFocus] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState("");
+  const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
+  const [confirmPasswordMessage, setConfirmPasswordMessage] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [validate, setValidate] = useState(false);
+
+  const [info, setInfo] = useState<UserInfo>({
     username: "",
     email: "",
     password: "",
-    confirmpassword: "",
+    cofirmpassword: "",
   });
 
-  const [open, setOpen] = useState(false);
-  const [err, setErr] = useState(false);
-  const [message, setMessage] = useState("");
+  console.log(info);
 
-  const registerhandler = async (e: FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (!NAME_REGEX.test(info.username)) {
+      setNameMessage("Username is required");
+    } else {
+      setNameMessage("");
+    }
+    return;
+  }, [info.username, userNameFocus]);
 
-    const response = await axios
-      .post("https://api-nodejs-todolist.herokuapp.com/user/register", info)
-      .then((res) => {
-        localStorage.setItem("token", res.data.token);
-        navigate("/");
-      })
-      .catch(() => {
-        setOpen(true);
-        setMessage("Register failed");
-      });
+  useEffect(() => {
+    if (!info.email) {
+      setEmailMessage("Email is required");
+      return;
+    }
+
+    if (!EMAIL_REGEX.test(info.email)) {
+      setEmailMessage("Please enter the correct email");
+      return;
+    }
+
+    setEmailMessage("");
+  }, [emailFocus, info.email]);
+
+  useEffect(() => {
+    if (info.password.length < 7) {
+      setPasswordMessage("Password minimun length 7");
+    } else {
+      setPasswordMessage("");
+    }
+
+    return;
+  }, [info.password.length, passwordFocus]);
+
+  useEffect(() => {
+    if (info.cofirmpassword.length < 7) {
+      setConfirmPasswordMessage("Confirm your password");
+    } else if (info.cofirmpassword !== info.password) {
+      setConfirmPasswordMessage("Password does not match");
+    } else {
+      setConfirmPasswordMessage("");
+    }
+    return;
+  }, [confirmPasswordFocus, info.cofirmpassword, info.password]);
+
+  const onValidate = () => {
+    setValidate(true);
+    if (
+      nameMessage ||
+      emailMessage ||
+      passwordMessage ||
+      confirmPasswordMessage
+    )
+      return false;
+    return true;
   };
 
-  const handleClose = (event?: React.SyntheticEvent | Event) => {
+  const registerHandler = async () => {
+    if (!onValidate()) return;
+
+    const res = await todoService.registerhandler(info);
+    setOpen(true);
+
+    if (!res) {
+      setMessage("Registered failed");
+      return;
+    }
+
+    setMessage("Registered successfully");
+    navigate("/login");
+  };
+
+  const handleClose = () => {
     setOpen(false);
   };
 
+  const isShowError = (key: keyof UserInfo) => !info[key];
+  const getHelperText = (value: string) => value;
+
   return (
     <div className="register">
-      <div className="wrap">
+      <form className="wrap">
         <h2 className="title">Register Page</h2>
         <TextField
           fullWidth
-          label="username"
+          label="name"
+          error={isShowError("username")}
+          helperText={getHelperText(nameMessage)}
           type="text"
-          onChange={(e) => setInfo({ ...info, username: e.target.value })}
-          required
-          min-length={10}
           className="form-control"
+          onChange={(e) => setInfo({ ...info, username: e.target.value })}
+          onFocus={() => setUserNameFocus(true)}
+          onBlur={() => setUserNameFocus(false)}
+          required
         />
-        {err ? (
-          <span>
-            Username should be 3-16 characters and shouldn't include any special
-            character!
-          </span>
-        ) : null}
-
+        <br />
+        <br />
         <TextField
+          error={isShowError("email")}
+          helperText={getHelperText(emailMessage)}
           fullWidth
           type="email"
           label="email"
           onChange={(e) => setInfo({ ...info, email: e.target.value })}
-          required
-          min-length={10}
+          onFocus={() => setEmailFocus(true)}
+          onBlur={() => setEmailFocus(false)}
           className="form-control"
         />
-
-        {err ? <span>It should be a valid email address!</span> : null}
-
+        <br />
+        <br />
         <TextField
+          error={isShowError("password")}
+          helperText={getHelperText(passwordMessage)}
           fullWidth
           type="password"
           label="password"
           onChange={(e) => setInfo({ ...info, password: e.target.value })}
-          required
+          onFocus={() => setPasswordFocus(true)}
+          onBlur={() => setPasswordFocus(false)}
           className="form-control"
         />
+        <br />
+        <br />
 
-        {err ? (
-          <span>
-            Password should be 8-20 characters and include at least 1 letter, 1
-            number and 1 special character!
-          </span>
-        ) : null}
         <TextField
+          error={isShowError("cofirmpassword")}
+          helperText={getHelperText(confirmPasswordMessage)}
           fullWidth
           type="password"
           label="confirm password"
-          onChange={(e) =>
-            setInfo({ ...info, confirmpassword: e.target.value })
-          }
-          required
+          onChange={(e) => setInfo({ ...info, cofirmpassword: e.target.value })}
+          onFocus={() => setConfirmPasswordFocus(true)}
+          onBlur={() => setConfirmPasswordFocus(false)}
           className="form-control"
         />
+        <br />
+        <br />
 
-        {err ? <span>Password don't match!</span> : null}
-        <Button onClick={registerhandler} fullWidth variant="contained">
+        <Button onClick={registerHandler} fullWidth variant="contained">
           Register
         </Button>
 
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          autoHideDuration={6000}
+          autoHideDuration={3000}
           open={open}
           message={message}
           onClose={handleClose}
@@ -126,7 +200,7 @@ const Register = () => {
             Log in
           </Link>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
