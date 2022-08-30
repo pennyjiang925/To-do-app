@@ -5,7 +5,6 @@ import { Todos } from "../../components/Todos";
 
 const Todo: React.FC = () => {
   const token = localStorage.getItem("token");
-
   return !token ? (
     <Navigate to="/login" />
   ) : (

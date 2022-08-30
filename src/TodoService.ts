@@ -1,5 +1,6 @@
 import axios, { AxiosRequestHeaders } from "axios";
-import { UserInfo } from "./types";
+
+import { UserInfo, Todo } from "./types";
 
 type Options = {
   baseUrl: string;
@@ -9,6 +10,7 @@ type Options = {
 let todoInstance: TodoService;
 
 export class TodoService {
+  [x: string]: any;
   private baseUrl = "";
   private headers: AxiosRequestHeaders | undefined;
   private token = "";
@@ -39,6 +41,37 @@ export class TodoService {
       return false;
     }
   }
+
+  async addTodo(request: Todo) {
+    try {
+      const res = await axios.post(`${this.baseUrl}/task`, request);
+      this.token = res.data.token;
+      localStorage.setItem("token", res.data.token);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  // async getAllTasks(){
+  //   try{
+  //     const res = await axios.get(`${this.baseUrl}/task`)
+  //   }
+  // }
+
+  //
+
+  // async updatedTask(request: Todo) {
+  // try {
+  //   await axios.put(`${this.baseUrl}/task/5ddcd1566b55da0017597239`)
+  // }
+  // }
+
+  // async deleteTaskById(request: Todo){
+  //   try {
+  //     await axios.delete(`${this.baseUrl}/task/5ddcd1566b55da0017597239`)
+  //   }
+  // }
 
   static create(baseUrl: string): TodoService {
     if (todoInstance) {
