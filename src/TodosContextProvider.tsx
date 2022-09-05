@@ -1,83 +1,98 @@
-import {
-  useState,
-  useEffect,
-  createContext,
-  useCallback,
-  ChangeEvent,
-  FormEvent,
-} from "react";
-import { Todo } from "./types";
-import { v4 as uuidv4 } from "uuid";
-import { AddTodoProps } from "./components/AddTodo";
-import { TodoProps } from "./components/FirstRow";
+import { useState, useEffect, createContext, useCallback, ChangeEvent, FormEvent } from 'react'
+import { Todo } from './types'
+import { AddTodoProps } from './components/AddTodo'
+import { TodoProps } from './components/FirstRow'
 
-type ContextOptions = Omit<TodoProps, "todo"> &
-  AddTodoProps & { todos: Todo[] };
+import { todoService } from '.'
 
-export const TodosContext = createContext<ContextOptions>({} as ContextOptions);
+type ContextOptions = Omit<TodoProps, 'todo'> & AddTodoProps & { todos: Todo[] }
+
+export const TodosContext = createContext<ContextOptions>({} as ContextOptions)
 
 export const TodosContextProvider = (props: any) => {
-  const localList = JSON.parse(localStorage.getItem("todos") || "[]");
-  const [todos, setTodos] = useState<Todo[]>(localList);
-  const [task, setTask] = useState("");
+  const [todos, setTodos] = useState<Todo[]>([])
+  const [task, setTask] = useState('')
 
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
-
-  const handleCheckTodo = useCallback(
-    (id: string) => {
-      const updatedTodos = todos.map((todo) => {
-        if (todo.id === id) {
+    const init = async () => {
+      const fetchedTasks = await todoService.getAllTasks()
+      console.log('fetchedTasks', fetchedTasks)
+      setTodos(
+        fetchedTasks.map((fetchedTask: any): Todo => {
           return {
-            ...todo,
-            isCompleted: !todo.isCompleted,
-          };
+            id: fetchedTask.id,
+            content: fetchedTask.content,
+            isCompleted: false,
+            description: fetchedTask.description,
+            created: fetchedTask.created,
+            creator: fetchedTask.creator,
+            dueDate: fetchedTask.due?.date,
+            url: fetchedTask.url
+          }
+        })
+      )
+    }
+    init()
+  }, [])
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleAddTodo = async (todo: Todo) => {
+    const updatedTodos = [...todos, todo]
+
+    const res = await todoService.addTasks(todo)
+    if (res) {
+      setTodos(updatedTodos)
+      setTask('')
+    }
+  }
+
+  const handleCheckTodo = async (todo: Todo) => {
+    const updatedTodos = todos.map(v => {
+      if (v.id === todo.id) {
+        return {
+          ...todo,
+          isCompleted: todo.isCompleted
         }
+      }
 
-        return todo;
-      });
-      setTodos(updatedTodos);
-    },
-    [todos]
-  );
+      return v
+    })
 
-  const handleDeleteTodo = useCallback(
-    (id: string) => {
-      const updatedTodos = todos.filter((todo) => todo.id !== id);
-      setTodos(updatedTodos);
-    },
-    [todos]
-  );
+    await todoService.updateTasks(todo)
+    setTodos(updatedTodos)
+  }
 
-  const handleAddTodo = useCallback(
-    (todo: Todo) => {
-      const updatedTodos = [...todos, todo];
-      setTodos(updatedTodos);
+  const handleDeleteTodo = async (id: string | number) => {
+    const res = await todoService.deletedTasks(id)
+    if (res) {
+      const updatedTodos = todos.filter(todo => todo.id !== id)
+      setTodos(updatedTodos)
+    }
+  }
 
-      setTask("");
-    },
-    [todos]
-  );
-
-  const handleChange = useCallback((e: ChangeEvent) => {
-    const { value } = e.target as HTMLInputElement;
-    setTask(value);
-  }, []);
+  const handleChange = (e: ChangeEvent) => {
+    const { value } = e.target as HTMLInputElement
+    setTask(value)
+  }
 
   const handleSubmitTodo = useCallback(
     (e: FormEvent) => {
-      e.preventDefault();
+      e.preventDefault()
 
       const todo = {
-        id: uuidv4(),
+        id: new Date().getTime(),
         task: task,
         isCompleted: false,
-      };
-      task && handleAddTodo(todo);
+        content: task,
+        created: '',
+        creator: '',
+        dueDate: '',
+        url: ''
+      }
+      task && handleAddTodo(todo)
     },
     [task, handleAddTodo]
-  );
+  )
 
   return (
     <TodosContext.Provider
@@ -87,10 +102,10 @@ export const TodosContextProvider = (props: any) => {
         handleCheckTodo,
         handleDeleteTodo,
         handleChange,
-        handleSubmitTodo,
+        handleSubmitTodo
       }}
     >
       {props.children}
     </TodosContext.Provider>
-  );
-};
+  )
+}

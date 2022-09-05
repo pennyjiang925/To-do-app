@@ -1,7 +1,12 @@
 export type Todo = {
-  id: string;
-  task: string;
+  id: string |number;
   isCompleted: boolean;
+  content: string;
+  creator: string;
+  created: string;
+  dueDate: string;
+  url: string;
+  description?:string
 };
 
 declare global {

@@ -42,7 +42,7 @@ export const SignupFormField: React.FC<SignupFormFieldProps> = ({
 
   useEffect(() => {
     onChange(value);
-  }, [onChange, value]);
+  }, [value]);
 
   return (
     <TextField

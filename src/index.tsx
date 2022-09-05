@@ -5,7 +5,7 @@ import App from "./App";
 import { TodoService } from "./TodoService";
 
 window.env = {
-  BASE_URL: "https://api-nodejs-todolist.herokuapp.com",
+  BASE_URL: "https://api.todoist.com/rest/v1",
 };
 
 export const todoService = TodoService.create(window.env.BASE_URL);

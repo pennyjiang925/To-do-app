@@ -21,6 +21,12 @@
   font-size: 20px;
 }
 
+.task-description,
+.task-date {
+  color: #999;
+  margin-top: 4px;
+}
+
 @media (max-width: 590px) {
   .row {
     width: 75%;

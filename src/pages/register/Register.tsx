@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-// import axios from 'axios'
+
 import { todoService } from "../../index";
 import { Button, Snackbar, Alert } from "@mui/material";
 import { useNavigate, Link } from "react-router-dom";
@@ -108,7 +108,7 @@ const Register = () => {
         <br />
         <SignupFormField
           label="password"
-          type="text"
+          type="password"
           onChange={(value) => setInfo({ ...info, password: value })}
           minLength={7}
           error={true}
@@ -118,7 +118,7 @@ const Register = () => {
 
         <SignupFormField
           label="confirmpassword"
-          type="text"
+          type="password"
           onChange={(value) => setInfo({ ...info, confirmpassword: value })}
           minLength={7}
           error={true}

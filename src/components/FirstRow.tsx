@@ -1,43 +1,48 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import { Button } from "@mui/material";
-import Checkbox from "@mui/material/Checkbox";
-import { useContext } from "react";
-import { TodosContext } from "../TodosContextProvider";
-import { Todo } from "../types";
-import "./FirstRow.css";
+import DeleteIcon from '@mui/icons-material/Delete'
+import { Button } from '@mui/material'
+import Checkbox from '@mui/material/Checkbox'
+import { useContext } from 'react'
+import { TodosContext } from '../TodosContextProvider'
+import { Todo } from '../types'
+import './FirstRow.css'
 
 export type TodoProps = {
-  todo: Todo;
-  handleCheckTodo: (id: string) => void;
-  handleDeleteTodo: (id: string) => void;
-};
+  todo: Todo
+  handleCheckTodo: (todo: Todo) => void
+  handleDeleteTodo: (id: string | number) => void
+}
 
-export const FirstRow = ({ id, task, isCompleted }: Todo) => {
-  const { handleCheckTodo, handleDeleteTodo } = useContext(TodosContext);
+export const FirstRow = (todo: Todo) => {
+  const { id, content, description, dueDate, isCompleted } = todo
+  const { handleCheckTodo, handleDeleteTodo } = useContext(TodosContext)
 
   return (
-    <div className="container">
-      <div className="row">
-        <p className="task-name">{task}</p>
+    <div className='container'>
+      <div className='row'>
+        <div>
+          <div className='task-name'>{content}</div>
+          <div className='task-description'>{description}</div>
+          <div className='task-date'>{dueDate}</div>
+        </div>
 
         <div>
           <Checkbox
             checked={isCompleted}
-            onChange={() => handleCheckTodo(id)}
-            inputProps={{ "aria-label": "controlled" }}
+            onChange={e => handleCheckTodo({ ...todo, isCompleted: e.target.checked })}
+            inputProps={{ 'aria-label': 'controlled' }}
           />
 
           <Button
             onClick={() => handleDeleteTodo(id)}
-            variant="outlined"
+            variant='outlined'
             startIcon={<DeleteIcon />}
-            size="small"
-            color="error"
+            size='small'
+            color='error'
           >
             Delete
           </Button>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

@@ -18,8 +18,13 @@ export const Todos = () => {
         <FirstRow
           key={todo.id}
           id={todo.id}
-          task={todo.task}
+          description={todo.description}
           isCompleted={todo.isCompleted}
+          content={todo.content}
+          created={todo.created}
+          creator={todo.creator}
+          dueDate={todo.dueDate}
+          url={todo.url}
         />
       ))}
 

@@ -1,6 +1,6 @@
 import axios, { AxiosRequestHeaders } from "axios";
 
-import { UserInfo, Todo } from "./types";
+import { Todo } from "./types";
 
 type Options = {
   baseUrl: string;
@@ -8,6 +8,8 @@ type Options = {
 };
 
 let todoInstance: TodoService;
+const token = "7892c2d53e783154d8c73b3d9f5c19de4968c442";
+axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
 export class TodoService {
   [x: string]: any;
@@ -18,60 +20,45 @@ export class TodoService {
   private constructor(options: Options) {
     this.baseUrl = options.baseUrl;
     this.headers = options.headers;
-    const localToken = localStorage.getItem("token");
-    if (localToken) this.token = localToken;
   }
 
-  async registerhandler(request: UserInfo) {
+  async addTasks(request: Todo) {
     try {
-      await axios.post(`${this.baseUrl}/user/register`, request);
-      return true;
+      await axios.post(`${this.baseUrl}/tasks`, request);
+      return true
     } catch (error) {
-      return false;
+      console.log(error);
+      return false
     }
   }
 
-  async login(data: Pick<UserInfo, "email" | "password">) {
+  async getAllTasks() {
     try {
-      const res = await axios.post(`${this.baseUrl}/user/login`, data);
-      this.token = res.data.token;
-      localStorage.setItem("token", res.data.token);
-      return true;
+      const res = await axios.get(`${this.baseUrl}/tasks`);
+      return res.data;
     } catch (error) {
-      return false;
+      console.log(error);
     }
   }
 
-  async addTodo(request: Todo) {
+  async updateTasks(todo: Todo) {
     try {
-      const res = await axios.post(`${this.baseUrl}/task`, request);
-      this.token = res.data.token;
-      localStorage.setItem("token", res.data.token);
-      return true;
+      const res = await axios.post(`${this.baseUrl}/tasks/${todo.id}`, todo);
+      return res.data;
     } catch (error) {
-      return false;
+      console.log(error);
     }
   }
 
-  // async getAllTasks(){
-  //   try{
-  //     const res = await axios.get(`${this.baseUrl}/task`)
-  //   }
-  // }
-
-  //
-
-  // async updatedTask(request: Todo) {
-  // try {
-  //   await axios.put(`${this.baseUrl}/task/5ddcd1566b55da0017597239`)
-  // }
-  // }
-
-  // async deleteTaskById(request: Todo){
-  //   try {
-  //     await axios.delete(`${this.baseUrl}/task/5ddcd1566b55da0017597239`)
-  //   }
-  // }
+  async deletedTasks(id: string | number) {
+    try {
+      await axios.delete(`${this.baseUrl}/tasks/${id}`);
+      return true
+    } catch (error) {
+      console.log(error);
+      return false
+    }
+  }
 
   static create(baseUrl: string): TodoService {
     if (todoInstance) {
