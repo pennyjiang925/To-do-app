@@ -20,45 +20,49 @@ export class TodoService {
   private constructor(options: Options) {
     this.baseUrl = options.baseUrl;
     this.headers = options.headers;
+    axios.defaults.baseURL = this.baseUrl;
   }
 
-  async addTasks(request: Todo) {
+  async addTask(request: Todo) {
     try {
-      await axios.post(`${this.baseUrl}/tasks`, request);
-      return true
+      await axios.post(`/tasks`, request);
+      return true;
     } catch (error) {
       console.log(error);
-      return false
+      return false;
     }
   }
 
   async getAllTasks() {
     try {
-      const res = await axios.get(`${this.baseUrl}/tasks`);
+      const res = await axios.get(`/tasks`);
       return res.data;
     } catch (error) {
       console.log(error);
     }
   }
 
-  async updateTasks(todo: Todo) {
+  async completeTask(todo: Todo) {
     try {
-      const res = await axios.post(`${this.baseUrl}/tasks/${todo.id}`, todo);
-      return res.data;
+      const res = await axios.post(`/tasks/${todo.id}/close`);
+      return res.status === 204;
     } catch (error) {
       console.log(error);
+      return false;
     }
   }
 
-  async deletedTasks(id: string | number) {
+  async deletedTask(id: string) {
     try {
       await axios.delete(`${this.baseUrl}/tasks/${id}`);
-      return true
+      return true;
     } catch (error) {
       console.log(error);
-      return false
+      return false;
     }
   }
+
+  // async executeHttpRequest ()
 
   static create(baseUrl: string): TodoService {
     if (todoInstance) {

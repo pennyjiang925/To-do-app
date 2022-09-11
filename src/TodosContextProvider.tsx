@@ -1,22 +1,29 @@
-import { useState, useEffect, createContext, useCallback, ChangeEvent, FormEvent } from 'react'
-import { Todo } from './types'
-import { AddTodoProps } from './components/AddTodo'
-import { TodoProps } from './components/FirstRow'
+import { useState, useEffect, createContext, ChangeEvent } from "react";
+import { Todo, TaskObj } from "./types";
+import { AddTodoProps } from "./components/Modal";
+import { TodoProps } from "./components/FirstRow";
 
-import { todoService } from '.'
+import { todoService } from ".";
 
-type ContextOptions = Omit<TodoProps, 'todo'> & AddTodoProps & { todos: Todo[] }
 
-export const TodosContext = createContext<ContextOptions>({} as ContextOptions)
+type ContextOptions = Omit<TodoProps, "todo"> &
+  AddTodoProps & { todos: Todo[]; loading: boolean;};
+
+export const TodosContext = createContext<ContextOptions>({} as ContextOptions);
 
 export const TodosContextProvider = (props: any) => {
-  const [todos, setTodos] = useState<Todo[]>([])
-  const [task, setTask] = useState('')
+  const [todos, setTodos] = useState<Todo[]>([]);
+
+
+  const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const init = async () => {
-      const fetchedTasks = await todoService.getAllTasks()
-      console.log('fetchedTasks', fetchedTasks)
+      setLoading(true);
+      const fetchedTasks = await todoService.getAllTasks();
+      console.log("fetchedTasks", fetchedTasks);
       setTodos(
         fetchedTasks.map((fetchedTask: any): Todo => {
           return {
@@ -27,85 +34,100 @@ export const TodosContextProvider = (props: any) => {
             created: fetchedTask.created,
             creator: fetchedTask.creator,
             dueDate: fetchedTask.due?.date,
-            url: fetchedTask.url
-          }
+            url: fetchedTask.url,
+          };
         })
-      )
-    }
-    init()
-  }, [])
+      );
+      setLoading(false);
+    };
+    init();
+  }, []);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleAddTodo = async (todo: Todo) => {
-    const updatedTodos = [...todos, todo]
+    setLoading(true);
 
-    const res = await todoService.addTasks(todo)
+    const res = await todoService.addTask(todo);
     if (res) {
-      setTodos(updatedTodos)
-      setTask('')
-    }
-  }
+      const updatedTodos = [...todos, todo];
+      setTodos(updatedTodos);
+   
+    
+    setLoading(false);
+  };
 
   const handleCheckTodo = async (todo: Todo) => {
-    const updatedTodos = todos.map(v => {
-      if (v.id === todo.id) {
-        return {
-          ...todo,
-          isCompleted: todo.isCompleted
-        }
-      }
-
-      return v
-    })
-
-    await todoService.updateTasks(todo)
-    setTodos(updatedTodos)
-  }
-
-  const handleDeleteTodo = async (id: string | number) => {
-    const res = await todoService.deletedTasks(id)
-    if (res) {
-      const updatedTodos = todos.filter(todo => todo.id !== id)
-      setTodos(updatedTodos)
+    setLoading(true);
+    if (await todoService.completeTask(todo)) {
+      const updatedTodos = todos.filter((item) => item.id !== todo.id);
+      setTodos(updatedTodos);
     }
+    setLoading(false);
+  };
+
+  const handleDeleteTodo = async (id: string) => {
+    const res = await todoService.deletedTask(id);
+    if (res) {
+      const updatedTodos = todos.filter((todo) => todo.id !== id);
+      setTodos(updatedTodos);
+    }
+  };
+
+  // const handleAction = (func: Function) =>{
+  //   setLoading(true)
+  //  func()
+  //   setLoading(false)
+  // }
+
+//   const handleClick = (e: ChangeEvent) => {
+//     e.preventDefault();
+
+//     const todo = {
+//       id: "",
+//       description: "",
+//       isCompleted: false,
+//       content: "",
+//       created: "",
+//       creator: "",
+//       dueDate: "",
+//       url: "",
+//     };
+
+//  handleAddTodo(todo);
+//   };
+
+
+  const handleClick = (e: ChangeEvent)=>{
+    const taskObj = {
+      taskName: 'task name',
+      description: 'description'
+
+    }
+
+    
+ 
   }
 
-  const handleChange = (e: ChangeEvent) => {
-    const { value } = e.target as HTMLInputElement
-    setTask(value)
+  const addTask = (taskObj:any)=>{
+    const list = todos 
+    list.push(taskObj)
+   setTodos(list)
   }
-
-  const handleSubmitTodo = useCallback(
-    (e: FormEvent) => {
-      e.preventDefault()
-
-      const todo = {
-        id: new Date().getTime(),
-        task: task,
-        isCompleted: false,
-        content: task,
-        created: '',
-        creator: '',
-        dueDate: '',
-        url: ''
-      }
-      task && handleAddTodo(todo)
-    },
-    [task, handleAddTodo]
-  )
 
   return (
     <TodosContext.Provider
       value={{
         todos,
-        task,
+        
         handleCheckTodo,
         handleDeleteTodo,
-        handleChange,
-        handleSubmitTodo
+
+        handleClick,
+        loading,
       }}
     >
       {props.children}
     </TodosContext.Provider>
-  )
-}
+  );
+};
+
+

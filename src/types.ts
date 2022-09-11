@@ -1,12 +1,12 @@
 export type Todo = {
-  id: string |number;
+  id: string;
   isCompleted: boolean;
   content: string;
   creator: string;
   created: string;
   dueDate: string;
   url: string;
-  description?:string
+  description?: string;
 };
 
 declare global {
@@ -22,4 +22,10 @@ export interface UserInfo {
   email: string;
   password: string;
   confirmpassword: string;
+}
+
+export interface TaskObj {
+  taskName: string;
+  description: string;
+  dueDate: string;
 }
