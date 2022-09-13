@@ -10,7 +10,7 @@ export const Todos = () => {
 
   const todosLength = todos.length;
   const hasTodos = todos.length > 0;
-  const remainingTodos = todos.filter((todo) => !todo.isCompleted).length;
+  const remainingTodos = todos.filter((todo) => !todo.is_completed).length;
 
   return (
     <>
@@ -22,11 +22,11 @@ export const Todos = () => {
             key={todo.id}
             id={todo.id}
             description={todo.description}
-            isCompleted={todo.isCompleted}
+            is_completed={todo.is_completed}
             content={todo.content}
             created={todo.created}
             creator={todo.creator}
-            dueDate={todo.dueDate}
+            due_date={todo.due_date}
             url={todo.url}
           />
         ))}

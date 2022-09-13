@@ -3,13 +3,14 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 .App {
   display: flex;
   flex-direction: column;
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   font-family: "Montserrat", sans-serif;
   background: url("https://thumbs.dreamstime.com/b/todo-list-seamless-pattern-universal-background-66678083.jpg"),
     linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));

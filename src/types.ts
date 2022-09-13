@@ -1,11 +1,11 @@
 export type Todo = {
-  id: string;
-  isCompleted: boolean;
+  id?: string;
+  is_completed: boolean;
   content: string;
-  creator: string;
-  created: string;
-  dueDate: string;
-  url: string;
+  creator?: string;
+  created?: string;
+  due_date?: string;
+  url?: string;
   description?: string;
 };
 
@@ -22,10 +22,4 @@ export interface UserInfo {
   email: string;
   password: string;
   confirmpassword: string;
-}
-
-export interface TaskObj {
-  taskName: string;
-  description: string;
-  dueDate: string;
 }

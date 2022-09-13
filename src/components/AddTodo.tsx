@@ -1,15 +1,12 @@
-// import { useContext } from "react";
-// import { TodosContext } from "../TodosContextProvider";
-// import { FormEvent } from "react";
 import "./AddTodo.css";
-import { FormDialog } from "./Modal";
+import { AddTodoButton } from "./Modal";
 
 export const AddTodo = () => {
   return (
     <div className="todo-container">
       <h2 className="todo-title">Let's get started</h2>
 
-      <FormDialog />
+      <AddTodoButton />
     </div>
   );
 };

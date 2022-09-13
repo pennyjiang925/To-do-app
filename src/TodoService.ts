@@ -11,11 +11,17 @@ let todoInstance: TodoService;
 const token = "7892c2d53e783154d8c73b3d9f5c19de4968c442";
 axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
+interface TodoServiceResponse {
+  success: boolean;
+  data?: Todo | Todo[];
+  error?: any;
+}
+
 export class TodoService {
   [x: string]: any;
   private baseUrl = "";
-  private headers: AxiosRequestHeaders | undefined;
-  private token = "";
+  // private headers: AxiosRequestHeaders | undefined;
+  // private token = "";
 
   private constructor(options: Options) {
     this.baseUrl = options.baseUrl;
@@ -23,13 +29,26 @@ export class TodoService {
     axios.defaults.baseURL = this.baseUrl;
   }
 
-  async addTask(request: Todo) {
+  async addTask(request: Todo): Promise<TodoServiceResponse> {
     try {
-      await axios.post(`/tasks`, request);
-      return true;
+      const res = await axios.post(`/tasks`, request);
+
+      if (res.status === 200) {
+        return {
+          success: true,
+          data: res.data,
+        };
+      } else {
+        return {
+          success: false,
+        };
+      }
     } catch (error) {
       console.log(error);
-      return false;
+      return {
+        success: false,
+        error,
+      };
     }
   }
 
@@ -61,8 +80,6 @@ export class TodoService {
       return false;
     }
   }
-
-  // async executeHttpRequest ()
 
   static create(baseUrl: string): TodoService {
     if (todoInstance) {

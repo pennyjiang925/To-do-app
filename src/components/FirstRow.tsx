@@ -8,12 +8,19 @@ import "./FirstRow.css";
 
 export type TodoProps = {
   todo: Todo;
+  handleAddTodo: (todo: Todo) => void;
   handleCheckTodo: (todo: Todo) => void;
   handleDeleteTodo: (id: string) => void;
 };
 
 export const FirstRow = (todo: Todo) => {
-  const { id, content, description, dueDate, isCompleted } = todo;
+  const {
+    id,
+    content,
+    description,
+    due_date: dueDate,
+    is_completed: isCompleted,
+  } = todo;
   const { handleCheckTodo, handleDeleteTodo } = useContext(TodosContext);
 
   return (
@@ -29,13 +36,13 @@ export const FirstRow = (todo: Todo) => {
           <Checkbox
             checked={isCompleted}
             onChange={(e) =>
-              handleCheckTodo({ ...todo, isCompleted: e.target.checked })
+              handleCheckTodo({ ...todo, is_completed: e.target.checked })
             }
             inputProps={{ "aria-label": "controlled" }}
           />
 
           <Button
-            onClick={() => handleDeleteTodo(id)}
+            onClick={() => handleDeleteTodo(id!)}
             variant="outlined"
             startIcon={<DeleteIcon />}
             size="small"

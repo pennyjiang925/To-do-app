@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -17,12 +17,12 @@ import { TodosContext } from "../TodosContextProvider";
 import { ChangeEvent } from "react";
 
 export type AddTodoProps = {
-  handleClick: (e: ChangeEvent) => void;
+  handleSubmit: (e: ChangeEvent) => void;
   onChange: (value: string) => void;
 };
 
-export const FormDialog = (e: ChangeEvent) => {
-  const { handleClick } = useContext(TodosContext);
+export const AddTodoButton: React.FC = () => {
+  const { handleAddTodo } = useContext(TodosContext);
   const [taskName, setTaskName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -30,38 +30,36 @@ export const FormDialog = (e: ChangeEvent) => {
 
   const [value, setValue] = useState<Dayjs | null>(dayjs());
 
-  // const handleChange = (e: ChangeEvent) => {
-
-  //   // const newDate = dayjs();
-  //   // setValue(newDate);
-
-  // };
+  const handleSubmit = async () => {
+    await handleAddTodo({
+      content: taskName,
+      description: description,
+      due_date: value?.toString(),
+      is_completed: false,
+    });
+    handleClose();
+  };
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleChange = (e: any) => {
-    const [label, value] = e.target;
-
-    if (label === "taskName") {
+  const handleChange = (target: "title" | "description", value: string) => {
+    if (target === "title") {
       setTaskName(value);
-    } else {
+    }
+    if (target === "description") {
       setDescription(value);
     }
   };
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Add tasks
+      <Button variant="outlined" onClick={() => setOpen(true)}>
+        Add task
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add Todos</DialogTitle>
+        <DialogTitle>Add Todo</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -72,7 +70,7 @@ export const FormDialog = (e: ChangeEvent) => {
             fullWidth
             variant="outlined"
             value={taskName}
-            onChange={handleChange}
+            onChange={(e) => handleChange("title", e.target.value)}
           />
           <br />
           <TextField
@@ -84,7 +82,7 @@ export const FormDialog = (e: ChangeEvent) => {
             fullWidth
             variant="outlined"
             value={description}
-            onChange={handleChange}
+            onChange={(e) => handleChange("description", e.target.value)}
           />
           <br />
           <br />
@@ -102,7 +100,7 @@ export const FormDialog = (e: ChangeEvent) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClick}>Add</Button>
+          <Button onClick={handleSubmit}>Add</Button>
         </DialogActions>
       </Dialog>
     </div>
