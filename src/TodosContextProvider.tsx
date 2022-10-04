@@ -2,8 +2,6 @@ import { useState, useEffect, createContext } from "react";
 import { Todo } from "./types";
 import { TodoProps } from "./components/FirstRow";
 import { todoService } from ".";
-// import {useDispatch} from 'react-redux';
-// import {addTodo} from './redux/todoSlice';
 
 type ContextOptions = Omit<TodoProps, "todo"> & {
   todos: Todo[];
@@ -29,8 +27,6 @@ export const TodosContextProvider = (props: any) => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
-  // const dispatch = useDispatch()
 
   useEffect(() => {
     const init = async () => {

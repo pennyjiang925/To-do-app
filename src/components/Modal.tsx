@@ -12,9 +12,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
-import { useContext } from "react";
-import { TodosContext } from "../TodosContextProvider";
 import { ChangeEvent } from "react";
+
+import { addTodo } from "../redux/Todos/actions/addTodo";
+
+import { useDispatch } from "react-redux";
 
 export type AddTodoProps = {
   handleSubmit: (e: ChangeEvent) => void;
@@ -22,7 +24,6 @@ export type AddTodoProps = {
 };
 
 export const AddTodoButton: React.FC = () => {
-  const { handleAddTodo } = useContext(TodosContext);
   const [taskName, setTaskName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -30,13 +31,18 @@ export const AddTodoButton: React.FC = () => {
 
   const [value, setValue] = useState<Dayjs | null>(dayjs());
 
+  const dispatch = useDispatch();
+
   const handleSubmit = async () => {
-    await handleAddTodo({
-      content: taskName,
-      description: description,
-      due_date: value?.toString(),
-      is_completed: false,
-    });
+    dispatch(
+      addTodo({
+        content: taskName,
+        description: description,
+        due_date: value?.format("YYYY-MM-DD"),
+        is_completed: false,
+      })
+    );
+
     handleClose();
   };
 

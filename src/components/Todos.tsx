@@ -1,12 +1,15 @@
-import { useContext } from "react";
 import { FirstRow } from "./FirstRow";
 import { AddTodo } from "./AddTodo";
-import { TodosContext } from "../TodosContextProvider";
+import { useSelector } from "react-redux";
+
 import "./Todo.css";
 import { Backdrop, CircularProgress } from "@mui/material";
+import { TodoState } from "../redux/Todos/types";
 
 export const Todos = () => {
-  const { todos, loading } = useContext(TodosContext);
+  const { todos, loading } = useSelector((state: { todos: TodoState }) => {
+    return state.todos as TodoState;
+  });
 
   const todosLength = todos.length;
   const hasTodos = todos.length > 0;
