@@ -36,6 +36,7 @@ export const AddTodoButton: React.FC = () => {
   const handleSubmit = async () => {
     dispatch(
       addTodo({
+        id: "",
         content: taskName,
         description: description,
         due_date: value?.format("YYYY-MM-DD"),

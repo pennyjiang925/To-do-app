@@ -2,6 +2,10 @@ import { useState, useEffect, createContext } from "react";
 import { Todo } from "./types";
 import { TodoProps } from "./components/FirstRow";
 import { todoService } from ".";
+import { useDispatch, useSelector } from "react-redux";
+import { TodoState } from "./redux/Todos/types";
+import { updateTodo } from "./redux/Todos/actions/updateTodo";
+import { deleteTodo } from "./redux/Todos/actions/deleteTodo";
 
 type ContextOptions = Omit<TodoProps, "todo"> & {
   todos: Todo[];
@@ -23,18 +27,29 @@ const mapTodoDtoToDo = (fetchedTodo: any): Todo => {
 
 export const TodosContext = createContext<ContextOptions>({} as ContextOptions);
 
+function setTodos(_arg0: any) {
+  throw new Error("Function not implemented.");
+}
+
 export const TodosContextProvider = (props: any) => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+
+  const { todos} = useSelector((state: { todos: TodoState }) => {
+    return state.todos as TodoState;
+  });
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
+  const dispatch = useDispatch()
+
+  
   useEffect(() => {
     const init = async () => {
-      setLoading(true);
+    setLoading(true)
       const fetchedTasks = await todoService.getAllTasks();
       console.log("fetchedTasks", fetchedTasks);
       setTodos(fetchedTasks.map(mapTodoDtoToDo));
-      setLoading(false);
+
+  setLoading(false)
     };
     init();
   }, []);
@@ -53,20 +68,19 @@ export const TodosContextProvider = (props: any) => {
     }
   };
 
-  const handleCheckTodo = async (todo: Todo) => {
+  const handleCheckTodo = async (todo:Todo) => {
     setLoading(true);
-    if (await todoService.completeTask(todo)) {
-      const updatedTodos = todos.filter((item) => item.id !== todo.id);
-      setTodos(updatedTodos);
-    }
+ 
+    dispatch(updateTodo)
+      
+    
     setLoading(false);
   };
 
   const handleDeleteTodo = async (id: string) => {
-    const res = await todoService.deletedTask(id);
-    if (res) {
-      const updatedTodos = todos.filter((todo) => todo.id !== id);
-      setTodos(updatedTodos);
+
+
+    dispatch(deleteTodo)
     }
   };
 
@@ -86,3 +100,6 @@ export const TodosContextProvider = (props: any) => {
     </TodosContext.Provider>
   );
 };
+
+
+

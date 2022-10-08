@@ -2,6 +2,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Button } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import { useContext } from "react";
+import { useSelector } from "react-redux";
+import { TodoState } from "../redux/Todos/types";
 import { TodosContext } from "../TodosContextProvider";
 import { Todo } from "../types";
 import "./FirstRow.css";
@@ -14,6 +16,10 @@ export type TodoProps = {
 };
 
 export const FirstRow = (todo: Todo) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { todos } = useSelector((state: { todos: TodoState }) => {
+    return state.todos as TodoState;
+  });
   const {
     id,
     content,

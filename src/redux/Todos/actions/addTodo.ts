@@ -1,12 +1,18 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from "@reduxjs/toolkit";
 import { todoService } from "../../..";
+import { Todo } from "../../../types";
 import { TodoState } from "../types";
 
-interface addTodoParams {
+export interface addTodoParams {
+  id: string | undefined;
   content: string;
   description: string;
   due_date: string | undefined;
   is_completed: boolean;
+}
+
+function mapTodoDtoToDo(data: Todo | Todo[] | undefined): any {
+  throw new Error("Function not implemented.");
 }
 
 export const addTodo = createAsyncThunk(
@@ -27,10 +33,10 @@ export const addTodoBuilder = (builder: ActionReducerMapBuilder<TodoState>) => {
     state.error = "";
   });
 
-  builder.addCase(addTodo.rejected, (state) => {
+  builder.addCase(addTodo.rejected, (state, action) => {
     // 404, 500
     state.loading = false;
-    state.error = "";
+    state.error = action.error.message || action.error.code || "Error";
   });
 
   builder.addCase(addTodo.fulfilled, (state, action) => {
@@ -41,15 +47,6 @@ export const addTodoBuilder = (builder: ActionReducerMapBuilder<TodoState>) => {
     state.todos = [...state.todos, addedTodo];
   });
 };
-
-function mapTodoDtoToDo(
-  data:
-    | import("../../../types").Todo
-    | import("../../../types").Todo[]
-    | undefined
-): any {
-  throw new Error("Function not implemented.");
-}
 
 // add todo
 
