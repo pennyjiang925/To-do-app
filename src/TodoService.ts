@@ -20,8 +20,6 @@ interface TodoServiceResponse {
 export class TodoService {
   [x: string]: any;
   private baseUrl = "";
-  // private headers: AxiosRequestHeaders | undefined;
-  // private token = "";
 
   private constructor(options: Options) {
     this.baseUrl = options.baseUrl;
@@ -71,9 +69,9 @@ export class TodoService {
     }
   }
 
-  async deletedTask(id: string) {
+  async deleteTask(id: string) {
     try {
-      await axios.delete(`${this.baseUrl}/tasks/${id}`);
+      await axios.delete(`/tasks/${id}`);
       return true;
     } catch (error) {
       console.log(error);

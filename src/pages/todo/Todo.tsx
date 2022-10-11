@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
-import { todoService } from "../..";
 import { TodosContextProvider } from "../../TodosContextProvider";
 import { Todos } from "../../components/Todos";
+import { useDispatch } from "react-redux";
+import { getTodo } from "../../redux/Todos/actions/getTodo";
 
 const Todo: React.FC = () => {
+  const dispatch = useDispatch();
   useEffect(() => {
-    todoService.getAllTasks();
+    dispatch(getTodo());
   }, []);
   return (
     <TodosContextProvider>

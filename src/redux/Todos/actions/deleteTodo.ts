@@ -1,5 +1,5 @@
-import { createAsyncThunk } from "@reduxjs/toolkit/dist/createAsyncThunk";
-import { ActionReducerMapBuilder } from "@reduxjs/toolkit/dist/mapBuilders";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { todoService } from "../../..";
 
 import { TodoState } from "../types";
@@ -9,16 +9,28 @@ export const deleteTodo = createAsyncThunk(
   async (id: string) => {
     const res = await todoService.deleteTask(id);
     if (res) {
-      return res.data;
+      return {
+        id,
+      };
+    } else {
+      return undefined;
     }
-    throw new Error();
   }
 );
 
-export const addTodoBuilder = (builder: ActionReducerMapBuilder<TodoState>) => {
+export const deleteTodoBuilder = (
+  builder: ActionReducerMapBuilder<TodoState>
+) => {
+  builder.addCase(deleteTodo.pending, (state) => {
+    state.loading = true;
+  });
+
+  builder.addCase(deleteTodo.rejected, (state) => {
+    state.loading = true;
+  });
+
   builder.addCase(deleteTodo.fulfilled, (state, action) => {
-    const deletedTodo = action.payload;
-    state.todos = state.todos.filter((todo) => todo.id === deletedTodo.id);
+    state.todos = state.todos.filter((todo) => todo.id !== action?.payload?.id);
     state.loading = false;
   });
 };

@@ -1,28 +1,40 @@
-import { createAsyncThunk } from "@reduxjs/toolkit/dist/createAsyncThunk";
-import { ActionReducerMapBuilder } from "@reduxjs/toolkit/dist/mapBuilders";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { todoService } from "../../..";
-import { Todo } from "../../../types";
+import { mapTodoDtoToDo } from "../../../TodosContextProvider";
 import { TodoState } from "../types";
-import { addTodoParams } from "./addTodo";
 
-function mapTodoDtoToDo(data: Todo | Todo[] | undefined): any {
-  throw new Error("Function not implemented.");
+interface updateTodoParams {
+  id: string | undefined;
+  content: string;
+  description: string;
+  due_date: string | undefined;
+  is_completed: boolean;
 }
 
 export const updateTodo = createAsyncThunk(
   "todos/updateTodo",
-  async (params: addTodoParams) => {
+  async (params: updateTodoParams) => {
     const response = await todoService.completeTask(params);
     if (response) {
-      return mapTodoDtoToDo(params);
+      return mapTodoDtoToDo(response);
     }
   }
 );
 
-export const addTodoBuilder = (builder: ActionReducerMapBuilder<TodoState>) => {
+export const updateTodoBuilder = (
+  builder: ActionReducerMapBuilder<TodoState>
+) => {
+  builder.addCase(updateTodo.pending, (state) => {
+    state.loading = true;
+  });
+
+  builder.addCase(updateTodo.rejected, (state) => {
+    state.loading = false;
+  });
   builder.addCase(updateTodo.fulfilled, (state, action) => {
     const updatedTodo = action.payload;
-    const index = state.todos.findIndex((todo) => todo.id === updatedTodo.id);
+    const index = state.todos.findIndex((todo) => todo.id === updatedTodo?.id);
     state.todos[index] = updatedTodo;
     state.loading = false;
   });
