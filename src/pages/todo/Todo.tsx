@@ -8,7 +8,7 @@ const Todo: React.FC = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getTodo());
-  }, []);
+  }, [dispatch]);
   return (
     <TodosContextProvider>
       <h1>TO DO List 2022</h1>
