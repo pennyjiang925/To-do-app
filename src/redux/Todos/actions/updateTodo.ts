@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { todoService } from "../../..";
-import { mapTodoDtoToDo } from "../../../TodosContextProvider";
+import { Todo } from "../../../types";
 import { TodoState } from "../types";
 
-interface updateTodoParams {
+export interface updateTodoParams {
   id: string | undefined;
   content: string;
   description: string;
@@ -12,12 +12,16 @@ interface updateTodoParams {
   is_completed: boolean;
 }
 
+function mapTodoDtoToDo(data: Todo | Todo[] | undefined): any {
+  throw new Error("Function not implemented.");
+}
+
 export const updateTodo = createAsyncThunk(
   "todos/updateTodo",
   async (params: updateTodoParams) => {
     const response = await todoService.completeTask(params);
     if (response) {
-      return mapTodoDtoToDo(response);
+      return mapTodoDtoToDo(params);
     }
   }
 );
@@ -34,7 +38,7 @@ export const updateTodoBuilder = (
   });
   builder.addCase(updateTodo.fulfilled, (state, action) => {
     const updatedTodo = action.payload;
-    const index = state.todos.findIndex((todo) => todo.id === updatedTodo?.id);
+    const index = state.todos.findIndex((todo) => todo.id === updatedTodo.id);
     state.todos[index] = updatedTodo;
     state.loading = false;
   });

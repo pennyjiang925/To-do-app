@@ -1,5 +1,7 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from "@reduxjs/toolkit";
+import Todos from "..";
 import { todoService } from "../../..";
+import { mapTodoDtoToDo } from "../../../TodosContextProvider";
 import { Todo } from "../../../types";
 import { TodoState } from "../types";
 
@@ -17,7 +19,7 @@ export const addTodo = createAsyncThunk(
     const response = await todoService.addTask(params);
 
     if (response.success) {
-      return response.data as Todo;
+      return mapTodoDtoToDo(response.data);
     }
     throw new Error(response.error);
   }
