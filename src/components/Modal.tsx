@@ -16,7 +16,7 @@ import { ChangeEvent } from "react";
 
 import { addTodo } from "../redux/Todos/actions/addTodo";
 
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../redux/Store";
 
 export type AddTodoProps = {
   handleSubmit: (e: ChangeEvent) => void;
@@ -31,7 +31,7 @@ export const AddTodoButton: React.FC = () => {
 
   const [value, setValue] = useState<Dayjs | null>(dayjs());
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = async () => {
     dispatch(

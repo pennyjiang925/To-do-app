@@ -1,8 +1,8 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from "@reduxjs/toolkit";
-import Todos from "..";
+
 import { todoService } from "../../..";
 import { mapTodoDtoToDo } from "../../../TodosContextProvider";
-import { Todo } from "../../../types";
+
 import { TodoState } from "../types";
 
 interface addTodoParams {
