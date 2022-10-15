@@ -7,8 +7,6 @@ import "./Todo.css";
 import { Backdrop, CircularProgress, Input } from "@mui/material";
 import { TodoState } from "../redux/Todos/types";
 import { useEffect, useState } from "react";
-import { mapTodoDtoToDo } from "../TodosContextProvider";
-import { todoService } from "..";
 import { useAppDispatch } from "../redux/Store";
 import { getTodo } from "../redux/Todos/actions/getTodo";
 
