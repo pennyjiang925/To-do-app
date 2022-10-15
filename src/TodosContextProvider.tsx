@@ -34,7 +34,6 @@ export const TodosContextProvider = (props: any) => {
   });
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {

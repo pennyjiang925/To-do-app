@@ -44,7 +44,7 @@ export const FirstRow = (todo: Todo) => {
             onChange={(e) =>
               handleCheckTodo({ ...todo, is_completed: e.target.checked })
             }
-            inputProps={{ "aria-label": "controlled" }}
+            inputProps={{ "aria-label": "Checkbox demo" }}
           />
 
           <Button

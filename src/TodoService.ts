@@ -50,9 +50,17 @@ export class TodoService {
     }
   }
 
-  async getAllTasks() {
+  async getAllTasks(params?: { page?: number, ids?: number[] }) {
     try {
-      const res = await axios.get(`/tasks`);
+      const _params = params
+      if (_params?.ids) {
+        Object.assign(_params, { ids: JSON.stringify(_params.ids) })
+      }
+
+      const res = await axios.get(`/tasks`, {
+        params: _params
+
+      });
       return res.data;
     } catch (error) {
       console.log(error);

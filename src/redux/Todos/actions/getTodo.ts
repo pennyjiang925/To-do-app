@@ -1,16 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
+
 import { todoService } from "../../..";
 import { mapTodoDtoToDo } from "../../../TodosContextProvider";
 import { Todo } from "../../../types";
 import { TodoState } from "../types";
 
-export const getTodo = createAsyncThunk("todos/getTodo", async () => {
-  const response = await todoService.getAllTasks();
-  if (response) {
-    return response.map((todo: Todo) => mapTodoDtoToDo(todo));
+export const getTodo = createAsyncThunk(
+  "todos/getTodo",
+  async (params?: { page?: number; ids?: number[] }) => {
+    const response = await todoService.getAllTasks(params);
+
+    if (response) {
+      return response.map((todo: Todo) => mapTodoDtoToDo(todo));
+    }
   }
-});
+);
 
 export const getTodoBuilder = (builder: ActionReducerMapBuilder<TodoState>) => {
   builder.addCase(getTodo.pending, (state) => {

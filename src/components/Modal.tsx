@@ -7,7 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 
 import DialogTitle from "@mui/material/DialogTitle";
 import dayjs, { Dayjs } from "dayjs";
-
+import PostAddIcon from "@mui/icons-material/PostAdd";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -66,8 +66,13 @@ export const AddTodoButton: React.FC = () => {
         Add task
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add Todo</DialogTitle>
-        <DialogContent>
+        <DialogTitle color="primary">Add Todo {<PostAddIcon />}</DialogTitle>
+        <DialogContent
+          sx={{
+            width: 500,
+            height: 300,
+          }}
+        >
           <TextField
             autoFocus
             margin="dense"
@@ -80,6 +85,7 @@ export const AddTodoButton: React.FC = () => {
             onChange={(e) => handleChange("title", e.target.value)}
           />
           <br />
+          <br />
           <TextField
             autoFocus
             margin="dense"
@@ -91,6 +97,7 @@ export const AddTodoButton: React.FC = () => {
             value={description}
             onChange={(e) => handleChange("description", e.target.value)}
           />
+          <br />
           <br />
           <br />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
