@@ -1,70 +1,34 @@
 import { FirstRow } from "./FirstRow";
 import { AddTodo } from "./AddTodo";
 import { useSelector } from "react-redux";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
+
 import "./Todo.css";
-import { Backdrop, CircularProgress, Input } from "@mui/material";
+import { Backdrop, CircularProgress } from "@mui/material";
 import { TodoState } from "../redux/Todos/types";
-import { useEffect, useState } from "react";
-import { useAppDispatch } from "../redux/Store";
-import { getTodo } from "../redux/Todos/actions/getTodo";
+import { usePagination } from "../hooks/usePagination";
+import { useSearch } from "../hooks/useSearch";
 
 export const Todos = () => {
-  const dispatch = useAppDispatch();
-
   const { todos, loading } = useSelector((state: { todos: TodoState }) => {
     return state.todos as TodoState;
   });
 
-  const todosLength = todos.length;
   const hasTodos = todos.length > 0;
   const remainingTodos = todos.filter((todo) => !todo.is_completed).length;
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [todosPerPage, setTodosPerPage] = useState(5);
+  const { searchInput, filteredTodos } = useSearch(todos);
 
-  useEffect(() => {
-    const indexOfLastTodo = currentPage * todosPerPage;
-    const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-    const currentTodos = todos.slice(indexOfFirstTodo, indexOfLastTodo);
-
-    console.log("currentTodos", currentTodos);
-
-    setTodosPerPage(Math.ceil(todos.length / todosPerPage));
-  }, [currentPage, todos, todosPerPage]);
-
-  const handleChange = (e: any, value: number) => {
-    setCurrentPage(value);
-    dispatch(getTodo({ page: value }));
-  };
-
-  const onSearch = (
-    e: React.KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    if (e.code === "Enter") {
-      let ids;
-      if (e.target.value)
-        ids = e.target.value.split(",").map((todo) => Number(todo));
-      dispatch(getTodo({ page: currentPage, ids }));
-    }
-  };
+  const { currentTodos, paginationComponent } = usePagination(filteredTodos);
 
   return (
     <>
       <section className="section-part">
         <AddTodo />
 
-        <div className="search-input-wrap">
-          <Input
-            onKeyDown={onSearch}
-            placeholder="Search by id"
-            className="search-input"
-          />
-        </div>
+        {searchInput}
 
         <div className="h-10" />
-        {todos.map((todo) => (
+        {currentTodos.map((todo) => (
           <FirstRow
             key={todo.id}
             id={todo.id}
@@ -82,7 +46,7 @@ export const Todos = () => {
 
         {hasTodos && (
           <p className="to-do">
-            [{remainingTodos} of {todosLength} todos remaining]
+            [{remainingTodos} of {todos.length} todos remaining]
           </p>
         )}
       </section>
@@ -91,16 +55,7 @@ export const Todos = () => {
         <CircularProgress color="inherit" />
       </Backdrop>
 
-      <Stack spacing={2} lineHeight={7} alignItems="center">
-        <Pagination
-          count={10}
-          page={currentPage}
-          onChange={handleChange}
-          showFirstButton={true}
-          showLastButton={true}
-          color="primary"
-        />
-      </Stack>
+      {paginationComponent}
     </>
   );
 };

@@ -6,16 +6,13 @@ import { mapTodoDtoToDo } from "../../../TodosContextProvider";
 import { Todo } from "../../../types";
 import { TodoState } from "../types";
 
-export const getTodo = createAsyncThunk(
-  "todos/getTodo",
-  async (params?: { page?: number; ids?: number[] }) => {
-    const response = await todoService.getAllTasks(params);
+export const getTodo = createAsyncThunk("todos/getTodo", async () => {
+  const response = await todoService.getAllTasks();
 
-    if (response) {
-      return response.map((todo: Todo) => mapTodoDtoToDo(todo));
-    }
+  if (response) {
+    return response.map((todo: Todo) => mapTodoDtoToDo(todo));
   }
-);
+});
 
 export const getTodoBuilder = (builder: ActionReducerMapBuilder<TodoState>) => {
   builder.addCase(getTodo.pending, (state) => {
