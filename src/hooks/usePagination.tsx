@@ -23,11 +23,11 @@ export const usePagination = (todos: Todo[]) => {
   const paginationComponent = useMemo(() => {
     return (
       <Stack
-        className="paginationBar"
         spacing={2}
         lineHeight={7}
         alignItems="center"
-        marginBottom={15}
+        paddingBottom={5}
+        marginTop={5}
       >
         <Pagination
           count={totalPages}

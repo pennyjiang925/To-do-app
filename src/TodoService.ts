@@ -1,5 +1,5 @@
 import axios, { AxiosRequestHeaders } from "axios";
-
+import { TOKEN_KEY } from "./Constants";
 import { Todo } from "./types";
 
 type Options = {
@@ -8,7 +8,7 @@ type Options = {
 };
 
 let todoInstance: TodoService;
-const token = "7892c2d53e783154d8c73b3d9f5c19de4968c442";
+const token = localStorage.getItem(TOKEN_KEY);
 axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
 interface TodoServiceResponse {
@@ -50,16 +50,15 @@ export class TodoService {
     }
   }
 
-  async getAllTasks(params?: { page?: number, ids?: number[] }) {
+  async getAllTasks(params?: { page?: number; ids?: number[] }) {
     try {
-      const _params = params
+      const _params = params;
       if (_params?.ids) {
-        Object.assign(_params, { ids: JSON.stringify(_params.ids) })
+        Object.assign(_params, { ids: JSON.stringify(_params.ids) });
       }
 
       const res = await axios.get(`/tasks`, {
-        params: _params
-
+        params: _params,
       });
       return res.data;
     } catch (error) {

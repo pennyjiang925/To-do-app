@@ -11,7 +11,6 @@ const Todo: React.FC = () => {
   }, [dispatch]);
   return (
     <TodosContextProvider>
-      <h1>TO DO List 2022</h1>
       <Todos />
     </TodosContextProvider>
   );

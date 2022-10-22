@@ -3,25 +3,30 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-
 import DialogTitle from "@mui/material/DialogTitle";
 import dayjs, { Dayjs } from "dayjs";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-
 import { ChangeEvent } from "react";
-
 import { addTodo } from "../redux/Todos/actions/addTodo";
-
 import { useAppDispatch } from "../redux/Store";
+import { styled } from "@mui/material/styles";
 
 export type AddTodoProps = {
   handleSubmit: (e: ChangeEvent) => void;
   onChange: (value: string) => void;
 };
+
+const Responsive = styled("div")(({ theme }) => ({
+  paddingLeft: theme.spacing(3),
+  paddingRight: theme.spacing(3),
+  [theme.breakpoints.up("md")]: {
+    width: 500,
+    height: 300,
+  },
+}));
 
 export const AddTodoButton: React.FC = () => {
   const [taskName, setTaskName] = useState("");
@@ -63,16 +68,11 @@ export const AddTodoButton: React.FC = () => {
   return (
     <div>
       <Button variant="outlined" onClick={() => setOpen(true)}>
-        Add task
+        Add a task
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle color="primary">Add Todo {<PostAddIcon />}</DialogTitle>
-        <DialogContent
-          sx={{
-            width: 500,
-            height: 300,
-          }}
-        >
+        <Responsive>
           <TextField
             autoFocus
             margin="dense"
@@ -111,7 +111,7 @@ export const AddTodoButton: React.FC = () => {
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
-        </DialogContent>
+        </Responsive>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleSubmit}>Add</Button>

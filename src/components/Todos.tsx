@@ -22,6 +22,8 @@ export const Todos = () => {
 
   return (
     <>
+      <h1>To-Do List</h1>
+
       <section className="section-part">
         <AddTodo />
 
@@ -41,6 +43,8 @@ export const Todos = () => {
             url={todo.url}
           />
         ))}
+
+        <br />
 
         {!hasTodos && <p className="to-do"></p>}
 
