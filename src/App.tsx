@@ -11,8 +11,8 @@ const App: React.FC = () => {
       <TodosContextProvider>
         <div className="App">
           <Routes>
-            <Route path="/" element={<Todo />} />
             <Route path="/callback" element={<Callback />} />
+            <Route path="/" element={<Todo />} />
           </Routes>
         </div>
       </TodosContextProvider>
