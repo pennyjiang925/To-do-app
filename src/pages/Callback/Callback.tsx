@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { CLIENT_ID, CLIENT_SECRET } from "../../../Constants";
-import HourglassTopIcon from "@mui/icons-material/HourglassTop";
+import { CLIENT_ID, CLIENT_SECRET } from "../../constants";
+import { Loader } from "../../components/Loader/Loader";
 
 export const Callback: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -26,10 +26,5 @@ export const Callback: React.FC = () => {
     fetchToken();
   }, [code]);
 
-  return (
-    <div className="loader">
-      <HourglassTopIcon />
-      <h3>Loading...</h3>
-    </div>
-  );
+  return <Loader />;
 };

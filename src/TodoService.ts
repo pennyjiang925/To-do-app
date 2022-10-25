@@ -1,5 +1,5 @@
 import axios, { AxiosRequestHeaders } from "axios";
-import { TOKEN_KEY } from "./Constants";
+import { TOKEN_KEY } from "./constants";
 import { Todo } from "./types";
 
 type Options = {

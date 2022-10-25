@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Todo from "./pages/todo/Todo";
+import Todo from "./pages/Todo/Todo/Todo";
 import "./App.css";
 import { TodosContextProvider } from "./TodosContextProvider";
-import { Callback } from "./pages/todo/callback/Callback";
+import { Callback } from "./pages/Callback/Callback";
 
 const App: React.FC = () => {
   return (

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { TodosContextProvider } from "../../TodosContextProvider";
-import { Todos } from "../../components/Todos";
-import { getTodo } from "../../redux/Todos/actions/getTodo";
-import { useAppDispatch } from "../../redux/Store";
+import { TodosContextProvider } from "../../../TodosContextProvider";
+import { Todos } from "../../Todos/Todos";
+import { getTodo } from "../../../redux/Todos/actions/getTodo";
+import { useAppDispatch } from "../../../redux/store";
 
 const Todo: React.FC = () => {
   const dispatch = useAppDispatch();
