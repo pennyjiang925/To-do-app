@@ -1,36 +1,36 @@
-import React, { useState } from 'react'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogTitle from '@mui/material/DialogTitle'
-import dayjs, { Dayjs } from 'dayjs'
-import PostAddIcon from '@mui/icons-material/PostAdd'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker'
-import { ChangeEvent } from 'react'
-import { addTodo } from '../../redux/Todos/actions/addTodo'
-import { useAppDispatch } from '../../redux/store'
-import { styled } from '@mui/material/styles'
+import React, { useState } from "react"
+import Button from "@mui/material/Button"
+import TextField from "@mui/material/TextField"
+import Dialog from "@mui/material/Dialog"
+import DialogActions from "@mui/material/DialogActions"
+import DialogTitle from "@mui/material/DialogTitle"
+import dayjs, { Dayjs } from "dayjs"
+import PostAddIcon from "@mui/icons-material/PostAdd"
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker"
+import { ChangeEvent } from "react"
+import { addTodo } from "../../redux/Todos/actions/addTodo"
+import { useAppDispatch } from "../../redux/store"
+import { styled } from "@mui/material/styles"
 
 export type AddTodoProps = {
     handleSubmit: (e: ChangeEvent) => void
     onChange: (value: string) => void
 }
 
-const Responsive = styled('div')(({ theme }) => ({
+const Responsive = styled("div")(({ theme }) => ({
     paddingLeft: theme.spacing(3),
     paddingRight: theme.spacing(3),
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up("md")]: {
         width: 500,
         height: 300,
     },
 }))
 
 const AddTodoButton: React.FC = () => {
-    const [taskName, setTaskName] = useState('')
-    const [description, setDescription] = useState('')
+    const [taskName, setTaskName] = useState("")
+    const [description, setDescription] = useState("")
 
     const [open, setOpen] = useState(false)
 
@@ -41,10 +41,10 @@ const AddTodoButton: React.FC = () => {
     const handleSubmit = async () => {
         dispatch(
             addTodo({
-                id: '',
+                id: "",
                 content: taskName,
                 description: description,
-                due_date: value?.format('YYYY-MM-DD'),
+                due_date: value?.format("YYYY-MM-DD"),
                 is_completed: false,
             })
         )
@@ -56,18 +56,22 @@ const AddTodoButton: React.FC = () => {
         setOpen(false)
     }
 
-    const handleChange = (target: 'title' | 'description', value: string) => {
-        if (target === 'title') {
+    const handleChange = (target: "title" | "description", value: string) => {
+        if (target === "title") {
             setTaskName(value)
         }
-        if (target === 'description') {
+        if (target === "description") {
             setDescription(value)
         }
     }
 
     return (
         <div>
-            <Button variant="outlined" onClick={() => setOpen(true)}>
+            <Button
+                data-testid="addTaskBtn"
+                variant="outlined"
+                onClick={() => setOpen(true)}
+            >
                 Add a task
             </Button>
             <Dialog open={open} onClose={handleClose}>
@@ -84,7 +88,7 @@ const AddTodoButton: React.FC = () => {
                         fullWidth
                         variant="outlined"
                         value={taskName}
-                        onChange={(e) => handleChange('title', e.target.value)}
+                        onChange={(e) => handleChange("title", e.target.value)}
                     />
                     <br />
                     <br />
@@ -98,7 +102,7 @@ const AddTodoButton: React.FC = () => {
                         variant="outlined"
                         value={description}
                         onChange={(e) =>
-                            handleChange('description', e.target.value)
+                            handleChange("description", e.target.value)
                         }
                     />
                     <br />

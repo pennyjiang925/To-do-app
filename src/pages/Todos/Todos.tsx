@@ -1,12 +1,11 @@
-import { Rows } from '../../components/Rows/Rows'
-import { AddTodo } from '../../components/AddTodo/AddTodo'
-import { useSelector } from 'react-redux'
-
-import './Todos.css'
-import { Backdrop, CircularProgress } from '@mui/material'
-import { TodoState } from '../../redux/Todos/types'
-import { usePagination } from '../../hooks/usePagination'
-import { useSearch } from '../../hooks/useSearch'
+import { Rows } from "../../components/Rows/Rows"
+import { AddTodo } from "../../components/AddTodo/AddTodo"
+import { useSelector } from "react-redux"
+import "./Todos.css"
+import { Backdrop, CircularProgress } from "@mui/material"
+import { TodoState } from "../../redux/Todos/types"
+import { usePagination } from "../../hooks/usePagination"
+import { useSearch } from "../../hooks/useSearch"
 
 export const Todos = () => {
     const { todos, loading } = useSelector((state: { todos: TodoState }) => {
@@ -55,7 +54,7 @@ export const Todos = () => {
                     </p>
                 )}
             </section>
-            <Backdrop sx={{ color: '#fff', zIndex: 9999 }} open={loading}>
+            <Backdrop sx={{ color: "#fff", zIndex: 9999 }} open={loading}>
                 <CircularProgress color="inherit" />
             </Backdrop>
 
