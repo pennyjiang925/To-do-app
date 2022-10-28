@@ -13,16 +13,17 @@
     margin-top: 20px;
     border-radius: 10px;
     padding: 15px;
-    background-color: #fcf8e8;
+    background-color: #ffe162;
 }
 
 .task-name {
+    font-family: "Poppins", sans-serif;
     font-size: 20px;
 }
 
 .task-description,
 .task-date {
-    color: #5f9df7;
+    color: #e8360f;
     margin-top: 4px;
 }
 

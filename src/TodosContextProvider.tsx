@@ -1,18 +1,21 @@
-import { useState, useEffect, createContext } from 'react'
-import { Todo } from './types'
-import { TodoProps } from './components/Rows/Rows'
-import { useSelector } from 'react-redux'
-import { TodoState } from './redux/Todos/types'
-import { updateTodo } from './redux/Todos/actions/updateTodo'
-import { deleteTodo } from './redux/Todos/actions/deleteTodo'
-import { addTodo } from './redux/Todos/actions/addTodo'
-import { useAppDispatch } from './redux/store'
+import { useState, useEffect, createContext, ReactNode } from "react"
+import { Todo } from "./types"
+import { TodoProps } from "./components/Rows/Rows"
+import { useSelector } from "react-redux"
+import { TodoState } from "./redux/Todos/types"
+import { updateTodo } from "./redux/Todos/actions/updateTodo"
+import { deleteTodo } from "./redux/Todos/actions/deleteTodo"
+import { addTodo } from "./redux/Todos/actions/addTodo"
+import { useAppDispatch } from "./redux/store"
 
-type ContextOptions = Omit<TodoProps, 'todo'> & {
+type ContextOptions = Omit<TodoProps, "todo"> & {
     todos: Todo[]
     loading: boolean
 }
 
+interface TodosContextProviderProps {
+    children: ReactNode
+}
 export const mapTodoDtoToDo = (fetchedTodo: any): Todo => {
     return {
         id: fetchedTodo.id,
@@ -28,7 +31,7 @@ export const mapTodoDtoToDo = (fetchedTodo: any): Todo => {
 
 export const TodosContext = createContext<ContextOptions>({} as ContextOptions)
 
-export const TodosContextProvider = (props: any) => {
+export const TodosContextProvider = (props: TodosContextProviderProps) => {
     const { todos } = useSelector((state: { todos: TodoState }) => {
         return state.todos as TodoState
     })
@@ -49,8 +52,8 @@ export const TodosContextProvider = (props: any) => {
         dispatch(
             addTodo({
                 id: undefined,
-                content: todo.content || '',
-                description: todo.description || '',
+                content: todo.content || "",
+                description: todo.description || "",
                 due_date: todo.due_date,
                 is_completed: todo.is_completed || false,
             })
@@ -61,8 +64,8 @@ export const TodosContextProvider = (props: any) => {
         dispatch(
             updateTodo({
                 id: todo.id,
-                content: todo.content || '',
-                description: todo.description || '',
+                content: todo.content || "",
+                description: todo.description || "",
                 due_date: todo.due_date,
                 is_completed: todo.is_completed || false,
             })

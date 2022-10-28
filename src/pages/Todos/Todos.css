@@ -1,7 +1,6 @@
 .to-do {
     text-align: center;
     margin-top: 50px;
-    color: #5f9df7;
 }
 
 .search-input-wrap {
@@ -11,4 +10,12 @@
 
 .search-input {
     width: 300px;
+}
+
+.logo {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    width: 300px;
+    margin-top: 20px;
 }

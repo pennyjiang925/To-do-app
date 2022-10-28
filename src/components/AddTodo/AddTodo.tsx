@@ -1,5 +1,5 @@
-import './AddTodo.css'
-import AddTodoButton from '../AddTodoButton/AddTodoBtn'
+import "./AddTodo.css"
+import AddTodoButton from "../AddTodoButton/AddTodoButton"
 
 export const AddTodo = () => {
     return (

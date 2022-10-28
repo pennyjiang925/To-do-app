@@ -1,6 +1,7 @@
 import { Rows } from "../../components/Rows/Rows"
 import { AddTodo } from "../../components/AddTodo/AddTodo"
 import { useSelector } from "react-redux"
+import logo from "../../assets/logo2.png"
 import "./Todos.css"
 import { Backdrop, CircularProgress } from "@mui/material"
 import { TodoState } from "../../redux/Todos/types"
@@ -21,8 +22,7 @@ export const Todos = () => {
 
     return (
         <>
-            <h1>To-Do List</h1>
-
+            <img src={logo} className="logo" alt="" />
             <section className="section-part">
                 <AddTodo />
 

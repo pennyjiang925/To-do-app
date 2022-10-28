@@ -1,12 +1,11 @@
-import DeleteIcon from '@mui/icons-material/Delete'
-import { Button } from '@mui/material'
-import Checkbox from '@mui/material/Checkbox'
-import { useContext } from 'react'
-import { useSelector } from 'react-redux'
-import { TodoState } from '../../redux/Todos/types'
-import './Rows.css'
-import { Todo } from '../../types'
-import { TodosContext } from '../../TodosContextProvider'
+import DeleteIcon from "@mui/icons-material/Delete"
+import { Button } from "@mui/material"
+import Checkbox from "@mui/material/Checkbox"
+import { useContext } from "react"
+
+import "./Rows.css"
+import { Todo } from "../../types"
+import { TodosContext } from "../../TodosContextProvider"
 
 export type TodoProps = {
     todo: Todo
@@ -16,9 +15,6 @@ export type TodoProps = {
 }
 
 export const Rows = (todo: Todo) => {
-    const { todos } = useSelector((state: { todos: TodoState }) => {
-        return state.todos as TodoState
-    })
     const {
         id,
         content,
@@ -46,7 +42,8 @@ export const Rows = (todo: Todo) => {
                                 is_completed: e.target.checked,
                             })
                         }
-                        inputProps={{ 'aria-label': 'Checkbox demo' }}
+                        inputProps={{ "aria-label": "Checkbox demo" }}
+                        defaultChecked
                     />
 
                     <Button
