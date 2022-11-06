@@ -7,17 +7,10 @@
 }
 
 .App {
-    position: relative;
     display: flex;
     flex-direction: column;
-    width: 100vw;
-    height: 100%;
+    height: 100vh;
     font-family: "Montserrat", sans-serif;
-    background: url("https://img.freepik.com/free-vector/weather-seamless-pattern-background-vector-cute-doodle-illustration-kids_53876-105731.jpg?w=1480&t=st=1666646581~exp=1666647181~hmac=d259d1044a5e0dbd7a05ddc7225ba79a4c2f7df6466677037885c43c51e646bc");
-    background-size: cover;
-    background-position: 100%;
-    background-attachment: fixed;
-    padding-bottom: 120px;
 }
 
 h1 {
@@ -38,29 +31,29 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #abd9ff;
+    background: #6accbc;
 }
 
 h3 {
     letter-spacing: 2px;
-    color: #1746a2;
 }
 
 .pagination {
     display: flex;
-    position: absolute;
-    bottom: 3%;
-    left: 50%;
-    transform: translateX(-50%);
+    justify-content: center;
+    align-items: center;
+    margin-top: -100px;
 }
 
 @media only screen and (min-width: 320px) {
     h1 {
         margin-top: 60px;
     }
+}
 
-    .App {
-        max-height: fit-content;
-        min-height: 100vh;
+@media (max-width: 1400px) {
+    .pagination {
+        margin-top: 30px;
+        padding-bottom: 30px;
     }
 }

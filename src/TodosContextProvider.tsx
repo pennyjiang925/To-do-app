@@ -16,7 +16,20 @@ type ContextOptions = Omit<TodoProps, "todo"> & {
 interface TodosContextProviderProps {
     children: ReactNode
 }
+
+const getExpireTime = (dateStr: string) => {
+    if (!dateStr) {
+        return 0
+    }
+    const newStr = dateStr.replace(/-/g, "/")
+    const date = new Date(newStr)
+    const timeStr = date.getTime().toString()
+    return Number(timeStr.substring(0, 10))
+}
 export const mapTodoDtoToDo = (fetchedTodo: any): Todo => {
+    const dueTime = getExpireTime(fetchedTodo.due?.date)
+    const currentTime = Math.round(new Date().setHours(0, 0, 0, 0) / 1000)
+
     return {
         id: fetchedTodo.id,
         content: fetchedTodo.content,
@@ -26,6 +39,7 @@ export const mapTodoDtoToDo = (fetchedTodo: any): Todo => {
         creator: fetchedTodo.creator,
         due_date: fetchedTodo.due?.date,
         url: fetchedTodo.url,
+        willExpire: currentTime < dueTime,
     }
 }
 

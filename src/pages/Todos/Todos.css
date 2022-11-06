@@ -1,21 +1,54 @@
+.header {
+    height: 80px;
+    background-color: #6accbc;
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-container {
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+    justify-content: center;
+    margin-right: 20px;
+}
 .to-do {
     text-align: center;
-    margin-top: 50px;
+    color: #2c3333;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
-.search-input-wrap {
-    text-align: center;
-    margin-top: 24px;
-}
-
-.search-input {
-    width: 300px;
+.section-part {
+    display: flex;
+    justify-content: flex-start;
 }
 
 .logo {
     display: block;
-    margin-right: auto;
+    margin-left: 20px;
+    width: 200px;
+}
+
+h1 {
+    text-align: left;
+}
+
+.task-title {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 50px;
+    margin-left: 5px;
+}
+
+.btn {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: -25px;
+}
+
+.todo-list {
+    display: block;
     margin-left: auto;
-    width: 300px;
-    margin-top: 20px;
+    margin-right: auto;
 }

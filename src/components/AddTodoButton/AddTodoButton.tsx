@@ -1,18 +1,19 @@
 import React, { useState } from "react"
-import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
 import Dialog from "@mui/material/Dialog"
 import DialogActions from "@mui/material/DialogActions"
 import DialogTitle from "@mui/material/DialogTitle"
 import dayjs, { Dayjs } from "dayjs"
-import PostAddIcon from "@mui/icons-material/PostAdd"
+import Button from "@mui/material/Button"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker"
 import { ChangeEvent } from "react"
 import { addTodo } from "../../redux/Todos/actions/addTodo"
 import { useAppDispatch } from "../../redux/store"
 import { styled } from "@mui/material/styles"
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker"
+import AddTaskIcon from "@mui/icons-material/AddTask"
+import AddIcon from "@mui/icons-material/Add"
 
 export type AddTodoProps = {
     handleSubmit: (e: ChangeEvent) => void
@@ -68,15 +69,19 @@ const AddTodoButton: React.FC = () => {
     return (
         <div>
             <Button
-                data-testid="addTaskBtn"
-                variant="outlined"
+                variant="contained"
+                sx={{
+                    marginLeft: "30px",
+                    width: "80%",
+                }}
                 onClick={() => setOpen(true)}
             >
-                Add a task
+                {<AddIcon />}
             </Button>
+
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle color="primary">
-                    Add Todo {<PostAddIcon />}
+                    Add Todo {<AddTaskIcon />}
                 </DialogTitle>
                 <Responsive>
                     <TextField
@@ -111,7 +116,6 @@ const AddTodoButton: React.FC = () => {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DesktopDatePicker
                             label="Due date"
-                            inputFormat="MM/DD/YYYY"
                             value={value}
                             onChange={(newValue) => {
                                 setValue(newValue)

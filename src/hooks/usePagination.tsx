@@ -1,6 +1,6 @@
-import { Pagination, Stack } from '@mui/material'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Todo } from '../types'
+import { Pagination, Stack } from "@mui/material"
+import { useCallback, useEffect, useMemo, useState } from "react"
+import { Todo } from "../types"
 
 const PAGE_SIZE = 5
 

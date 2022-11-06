@@ -7,6 +7,8 @@ import { Backdrop, CircularProgress } from "@mui/material"
 import { TodoState } from "../../redux/Todos/types"
 import { usePagination } from "../../hooks/usePagination"
 import { useSearch } from "../../hooks/useSearch"
+import { Notification } from "../../components/Notification/Notification"
+import AddTodoButton from "../../components/AddTodoButton/AddTodoButton"
 
 export const Todos = () => {
     const { todos, loading } = useSelector((state: { todos: TodoState }) => {
@@ -22,37 +24,44 @@ export const Todos = () => {
 
     return (
         <>
-            <img src={logo} className="logo" alt="" />
+            <div className="header">
+                <img src={logo} className="logo" alt="" />
+                <div className="search-container">
+                    {searchInput}
+                    {!hasTodos && <p className="to-do"></p>}
+
+                    {hasTodos && (
+                        <p className="to-do">
+                            {remainingTodos}/{todos.length}
+                        </p>
+                    )}
+                    <Notification />
+                </div>
+            </div>
             <section className="section-part">
                 <AddTodo />
 
-                {searchInput}
-
-                <div className="h-10" />
-
-                {currentTodos.map((todo) => (
-                    <Rows
-                        key={todo.id}
-                        id={todo.id}
-                        description={todo.description}
-                        is_completed={todo.is_completed}
-                        content={todo.content}
-                        created={todo.created}
-                        creator={todo.creator}
-                        due_date={todo.due_date}
-                        url={todo.url}
-                    />
-                ))}
-
-                <br />
-
-                {!hasTodos && <p className="to-do"></p>}
-
-                {hasTodos && (
-                    <p className="to-do">
-                        [{remainingTodos} of {todos.length} todos remaining]
-                    </p>
-                )}
+                <div className="todo-list">
+                    <h2 className="task-title">My tasks</h2>
+                    <br />
+                    {currentTodos.map((todo) => (
+                        <Rows
+                            key={todo.id}
+                            id={todo.id}
+                            description={todo.description}
+                            is_completed={todo.is_completed}
+                            content={todo.content}
+                            created={todo.created}
+                            creator={todo.creator}
+                            due_date={todo.due_date}
+                            url={todo.url}
+                        />
+                    ))}
+                    <br />
+                    <div className="btn">
+                        <AddTodoButton />
+                    </div>
+                </div>
             </section>
             <Backdrop sx={{ color: "#fff", zIndex: 9999 }} open={loading}>
                 <CircularProgress color="inherit" />
