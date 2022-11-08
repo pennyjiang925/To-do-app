@@ -5,9 +5,9 @@ import { useContext } from "react"
 import "./Rows.css"
 import { Todo } from "../../types"
 import { TodosContext } from "../../TodosContextProvider"
-import { DragDropContext, Droppable } from "react-beautiful-dnd"
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder"
 import Favorite from "@mui/icons-material/Favorite"
+import CreateIcon from "@mui/icons-material/Create"
 
 export type TodoProps = {
     todo: Todo
@@ -28,64 +28,47 @@ export const Rows = (todo: Todo) => {
     } = todo
     const { handleCheckTodo, handleDeleteTodo } = useContext(TodosContext)
 
-    const handleDragEnd = (result: any) => {
-        if (!result.destination) return
-        // const items = { ...todo }
-        // const [reorderedItem] = items.splice(result.source.index, 1)
-        // items.splice(result.destination.index, 0, reorderedItem)
-    }
-
     return (
         <div className="container">
-            <DragDropContext onDragEnd={handleDragEnd}>
-                <Droppable droppableId="todo-list">
-                    {(provided) => (
-                        <div
-                            className="row"
-                            {...provided.droppableProps}
-                            ref={provided.innerRef}
-                        >
-                            <div>
-                                <div className="task-name">{content}</div>
-                                <div className="task-description">
-                                    {description}
-                                </div>
-                                <div className="task-date">{dueDate}</div>
-                            </div>
+            <div className="row">
+                <div>
+                    <div className="task-name">{content}</div>
+                    <div className="task-description">{description}</div>
+                    <div className="task-date">{dueDate}</div>
+                </div>
 
-                            <div>
-                                <Checkbox
-                                    {...label}
-                                    icon={<FavoriteBorder />}
-                                    checkedIcon={<Favorite />}
-                                />
-                                <Checkbox
-                                    checked={isCompleted}
-                                    onChange={(e) =>
-                                        handleCheckTodo({
-                                            ...todo,
-                                            is_completed: e.target.checked,
-                                        })
-                                    }
-                                    inputProps={{
-                                        "aria-label": "Checkbox demo",
-                                    }}
-                                />
+                <div>
+                    <Checkbox
+                        icon={<CreateIcon />}
+                        size="medium"
+                        color="error"
+                    ></Checkbox>
 
-                                <Button
-                                    onClick={() => handleDeleteTodo(id!)}
-                                    variant="outlined"
-                                    startIcon={<DeleteIcon />}
-                                    size="small"
-                                    color="error"
-                                >
-                                    Delete
-                                </Button>
-                            </div>
-                        </div>
-                    )}
-                </Droppable>
-            </DragDropContext>
+                    <Checkbox
+                        {...label}
+                        icon={<FavoriteBorder />}
+                        checkedIcon={<Favorite />}
+                    />
+                    <Checkbox
+                        checked={isCompleted}
+                        onChange={(e) =>
+                            handleCheckTodo({
+                                ...todo,
+                                is_completed: e.target.checked,
+                            })
+                        }
+                        {...label}
+                        defaultChecked
+                    />
+
+                    <Button
+                        onClick={() => handleDeleteTodo(id!)}
+                        startIcon={<DeleteIcon />}
+                        size="large"
+                        color="error"
+                    ></Button>
+                </div>
+            </div>
         </div>
     )
 }

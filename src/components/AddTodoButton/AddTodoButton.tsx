@@ -71,8 +71,8 @@ const AddTodoButton: React.FC = () => {
             <Button
                 variant="contained"
                 sx={{
-                    marginLeft: "30px",
-                    width: "80%",
+                    marginLeft: "45px",
+                    width: "70%",
                 }}
                 onClick={() => setOpen(true)}
             >

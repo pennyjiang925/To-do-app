@@ -1,7 +1,7 @@
 import { Rows } from "../../components/Rows/Rows"
 import { AddTodo } from "../../components/AddTodo/AddTodo"
 import { useSelector } from "react-redux"
-import logo from "../../assets/logo2.png"
+import logo from "../../assets/logo3.png"
 import "./Todos.css"
 import { Backdrop, CircularProgress } from "@mui/material"
 import { TodoState } from "../../redux/Todos/types"
@@ -39,35 +39,39 @@ export const Todos = () => {
                 </div>
             </div>
             <section className="section-part">
-                <AddTodo />
+                <div className="add-todo">
+                    <AddTodo />
+                </div>
 
-                <div className="todo-list">
-                    <h2 className="task-title">My tasks</h2>
-                    <br />
-                    {currentTodos.map((todo) => (
-                        <Rows
-                            key={todo.id}
-                            id={todo.id}
-                            description={todo.description}
-                            is_completed={todo.is_completed}
-                            content={todo.content}
-                            created={todo.created}
-                            creator={todo.creator}
-                            due_date={todo.due_date}
-                            url={todo.url}
-                        />
-                    ))}
-                    <br />
-                    <div className="btn">
-                        <AddTodoButton />
+                <div className="list-container">
+                    <div className="todo-list">
+                        <h2 className="task-title">My tasks</h2>
+
+                        <br />
+                        {currentTodos.map((todo) => (
+                            <Rows
+                                key={todo.id}
+                                id={todo.id}
+                                description={todo.description}
+                                is_completed={todo.is_completed}
+                                content={todo.content}
+                                created={todo.created}
+                                creator={todo.creator}
+                                due_date={todo.due_date}
+                                url={todo.url}
+                            />
+                        ))}
+                        <br />
+                        <div className="btn">
+                            <AddTodoButton />
+                        </div>
+                        {paginationComponent}
                     </div>
                 </div>
             </section>
             <Backdrop sx={{ color: "#fff", zIndex: 9999 }} open={loading}>
                 <CircularProgress color="inherit" />
             </Backdrop>
-
-            {paginationComponent}
         </>
     )
 }

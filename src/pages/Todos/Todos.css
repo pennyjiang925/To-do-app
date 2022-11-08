@@ -24,10 +24,16 @@
     justify-content: flex-start;
 }
 
+.add-todo {
+    display: flex;
+    height: 100vh;
+}
+
 .logo {
     display: block;
     margin-left: 20px;
-    width: 200px;
+    width: 180px;
+    cursor: pointer;
 }
 
 h1 {
@@ -44,11 +50,48 @@ h1 {
 .btn {
     display: flex;
     justify-content: flex-start;
-    margin-left: -25px;
+    margin-left: -40px;
 }
-
+.list-container {
+    width: 100%;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    background: url("https://img.freepik.com/free-vector/businessman-holding-pencil-big-complete-checklist-with-tick-marks_1150-35019.jpg?w=1480&t=st=1667866847~exp=1667867447~hmac=edc5240a394f779d14640e690bfa29875ca1a8bd1648fe1d61bef1dfc11efed7");
+    background-size: 500px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 .todo-list {
+    position: relative;
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+.pagination {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    width: 200px;
+    justify-content: center;
+    align-items: center;
+    bottom: 3%;
+}
+
+@media (min-width: 1400px) {
+    .pagination {
+        top: 90%;
+    }
+
+    .section-part {
+        overflow: hidden;
+    }
+}
+
+@media (min-width: 700px) {
+    .btn {
+        display: none;
+    }
 }

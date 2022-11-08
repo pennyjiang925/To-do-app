@@ -26,23 +26,17 @@ export const Notification = () => {
         return state.todos as TodoState
     })
     const [open, setOpen] = useState(false)
-    const [badgeNumber, setBadgeNumber] = useState(0)
 
     const due_task = todos.filter((todo) => todo.willExpire).length
 
-    const handleRead = () => {
-        setOpen(true)
-        setBadgeNumber(0)
-    }
-
     return (
         <MenuItem>
-            <IconButton
-                size="large"
-                aria-label="show new notifications"
-                onClick={handleRead}
-            >
-                <Badge badgeContent={due_task} color="error">
+            <IconButton size="large" aria-label="show new notifications">
+                <Badge
+                    badgeContent={due_task}
+                    color="error"
+                    onClick={() => setOpen(true)}
+                >
                     <NotificationsIcon />
                 </Badge>
             </IconButton>
