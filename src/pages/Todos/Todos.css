@@ -72,8 +72,8 @@ h1 {
 .pagination {
     display: flex;
     position: absolute;
-    left: 50%;
-    transform: translate(-50%);
+    left: 45%;
+    transform: translate(-45%);
     width: 200px;
     justify-content: center;
     align-items: center;
