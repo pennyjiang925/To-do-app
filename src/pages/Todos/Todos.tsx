@@ -69,6 +69,7 @@ export const Todos = () => {
                     </div>
                 </div>
             </section>
+
             <Backdrop sx={{ color: "#fff", zIndex: 9999 }} open={loading}>
                 <CircularProgress color="inherit" />
             </Backdrop>
