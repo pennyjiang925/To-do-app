@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, ReactNode } from "react"
+import { useEffect, createContext, ReactNode } from "react"
 import { Todo } from "./types"
 import { TodoProps } from "./components/Rows/Rows"
 import { useSelector } from "react-redux"
@@ -7,6 +7,8 @@ import { updateTodo } from "./redux/Todos/actions/updateTodo"
 import { deleteTodo } from "./redux/Todos/actions/deleteTodo"
 import { addTodo } from "./redux/Todos/actions/addTodo"
 import { useAppDispatch } from "./redux/store"
+import { getTodos } from "./redux/Todos/actions/getTodos"
+import { editTodo } from "./redux/Todos/actions/editTodo"
 
 type ContextOptions = Omit<TodoProps, "todo"> & {
     todos: Todo[]
@@ -46,21 +48,15 @@ export const mapTodoDtoToDo = (fetchedTodo: any): Todo => {
 export const TodosContext = createContext<ContextOptions>({} as ContextOptions)
 
 export const TodosContextProvider = (props: TodosContextProviderProps) => {
-    const { todos } = useSelector((state: { todos: TodoState }) => {
+    const { todos, loading } = useSelector((state: { todos: TodoState }) => {
         return state.todos as TodoState
     })
-    const [loading, setLoading] = useState(false)
 
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        const init = async () => {
-            setLoading(true)
-
-            setLoading(false)
-        }
-        init()
-    }, [])
+        dispatch(getTodos())
+    }, [dispatch])
 
     const handleAddTodo = async (todo: Todo) => {
         dispatch(
@@ -86,6 +82,18 @@ export const TodosContextProvider = (props: TodosContextProviderProps) => {
         )
     }
 
+    const handleEditTodo = async (todo: Todo) => {
+        dispatch(
+            editTodo({
+                id: todo.id,
+                content: todo.content || "",
+                description: todo.description || "",
+                due_date: todo.due_date,
+                is_completed: todo.is_completed || false,
+            })
+        )
+    }
+
     const handleDeleteTodo = (id: string) => {
         dispatch(deleteTodo(id))
     }
@@ -97,7 +105,7 @@ export const TodosContextProvider = (props: TodosContextProviderProps) => {
 
                 handleCheckTodo,
                 handleDeleteTodo,
-
+                handleEditTodo,
                 handleAddTodo,
                 loading,
             }}

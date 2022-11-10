@@ -1,5 +1,4 @@
 import DeleteIcon from "@mui/icons-material/Delete"
-import { Button } from "@mui/material"
 import Checkbox from "@mui/material/Checkbox"
 import { useContext } from "react"
 import "./Rows.css"
@@ -7,13 +6,15 @@ import { Todo } from "../../types"
 import { TodosContext } from "../../TodosContextProvider"
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder"
 import Favorite from "@mui/icons-material/Favorite"
-import CreateIcon from "@mui/icons-material/Create"
+import IconButton from "@mui/material/IconButton"
+import { EditButton } from "../EditButton/EditButton"
 
-export type TodoProps = {
+export interface TodoProps {
     todo: Todo
     handleAddTodo: (todo: Todo) => void
     handleCheckTodo: (todo: Todo) => void
     handleDeleteTodo: (id: string) => void
+    handleEditTodo: (todo: Todo) => void
 }
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } }
@@ -38,11 +39,9 @@ export const Rows = (todo: Todo) => {
                 </div>
 
                 <div>
-                    <Checkbox
-                        icon={<CreateIcon />}
-                        size="medium"
-                        color="error"
-                    ></Checkbox>
+                    <IconButton>
+                        <EditButton todo={todo} />
+                    </IconButton>
 
                     <Checkbox
                         {...label}
@@ -58,15 +57,16 @@ export const Rows = (todo: Todo) => {
                             })
                         }
                         {...label}
-                        defaultChecked
+                        defaultChecked={true}
                     />
 
-                    <Button
+                    <IconButton
                         onClick={() => handleDeleteTodo(id!)}
-                        startIcon={<DeleteIcon />}
                         size="large"
                         color="error"
-                    ></Button>
+                    >
+                        {<DeleteIcon />}
+                    </IconButton>
                 </div>
             </div>
         </div>

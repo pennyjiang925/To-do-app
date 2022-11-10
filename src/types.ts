@@ -17,10 +17,3 @@ declare global {
         }
     }
 }
-
-export interface UserInfo {
-    username: string
-    email: string
-    password: string
-    confirmpassword: string
-}

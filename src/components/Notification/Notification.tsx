@@ -56,7 +56,7 @@ export const Notification = () => {
                         Notifications
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        You have {due_task} tasks due tomorrow
+                        You have {due_task} upcoming tasks due
                     </Typography>
                 </Box>
             </Modal>

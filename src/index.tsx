@@ -16,7 +16,6 @@ const isCallback = window.location.pathname === "/callback"
 
 const token = localStorage.getItem(TOKEN_KEY)
 
-console.log("CLIENT ID IS" + CLIENT_ID)
 if (!token && !isCallback) {
     window.location.replace(
         `https://todoist.com/oauth/authorize?client_id=${CLIENT_ID}&scope=task:add,data:read_write,data:delete&state=secretstring`

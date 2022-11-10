@@ -2,6 +2,7 @@ import { Rows } from "../../components/Rows/Rows"
 import { AddTodo } from "../../components/AddTodo/AddTodo"
 import { useSelector } from "react-redux"
 import logo from "../../assets/logo3.png"
+import { EmptyTodo } from "./EmptyTodo"
 import "./Todos.css"
 import { Backdrop, CircularProgress } from "@mui/material"
 import { TodoState } from "../../redux/Todos/types"
@@ -28,7 +29,7 @@ export const Todos = () => {
                 <img src={logo} className="logo" alt="" />
                 <div className="search-container">
                     {searchInput}
-                    {!hasTodos && <p className="to-do"></p>}
+                    {!hasTodos && <p className="to-do">0/0</p>}
 
                     {hasTodos && (
                         <p className="to-do">
@@ -46,21 +47,26 @@ export const Todos = () => {
                 <div className="list-container">
                     <div className="todo-list">
                         <h2 className="task-title">My tasks</h2>
-
                         <br />
-                        {currentTodos.map((todo) => (
-                            <Rows
-                                key={todo.id}
-                                id={todo.id}
-                                description={todo.description}
-                                is_completed={todo.is_completed}
-                                content={todo.content}
-                                created={todo.created}
-                                creator={todo.creator}
-                                due_date={todo.due_date}
-                                url={todo.url}
-                            />
-                        ))}
+                        {!hasTodos && <EmptyTodo />}
+                        {hasTodos && (
+                            <div>
+                                {currentTodos.map((todo) => (
+                                    <Rows
+                                        key={todo.id}
+                                        id={todo.id}
+                                        description={todo.description}
+                                        is_completed={todo.is_completed}
+                                        content={todo.content}
+                                        created={todo.created}
+                                        creator={todo.creator}
+                                        due_date={todo.due_date}
+                                        url={todo.url}
+                                    />
+                                ))}
+                            </div>
+                        )}
+
                         <br />
                         <div className="btn">
                             <AddTodoButton />
