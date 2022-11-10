@@ -26,7 +26,7 @@ export const editTodoBuilder = (
     builder: ActionReducerMapBuilder<TodoState>
 ) => {
     builder.addCase(editTodo.pending, (state) => {
-        state.loading = false
+        state.loading = true
     })
 
     builder.addCase(editTodo.rejected, (state) => {
