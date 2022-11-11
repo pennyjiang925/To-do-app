@@ -38,10 +38,8 @@ export const Rows = (todo: Todo) => {
                     <div className="task-date">{dueDate}</div>
                 </div>
 
-                <div>
-                    <IconButton>
-                        <EditButton todo={todo} />
-                    </IconButton>
+                <div className="icons">
+                    <EditButton todo={todo} />
 
                     <Checkbox
                         {...label}
