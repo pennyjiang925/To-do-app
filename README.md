@@ -1,6 +1,6 @@
 # Todoist App with React
 
-<p alignItems="center"><img src="/assets/logo3.png" /></p>
+<p alignItems="center"><img src="assets/logo3.png" /></p>
 
 ## Features
 
@@ -13,7 +13,7 @@
 
 ## Screenshot
 
-<img src="/assets/ScreenShot.png"  />
+![Screenshot]<img src="assets/ScreenShot.png"  />
 
 ## Dependencies
 
