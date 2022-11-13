@@ -7,7 +7,8 @@ import { TodosContext } from "../../TodosContextProvider"
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder"
 import Favorite from "@mui/icons-material/Favorite"
 import IconButton from "@mui/material/IconButton"
-import { EditButton } from "../EditButton/EditButton"
+
+import { TodoActionButton } from "../TodoActionButton"
 
 export interface TodoProps {
     todo: Todo
@@ -39,7 +40,7 @@ export const Rows = (todo: Todo) => {
                 </div>
 
                 <div className="icons">
-                    <EditButton todo={todo} />
+                    <TodoActionButton actionType="edit" todo={todo} />
 
                     <Checkbox
                         {...label}

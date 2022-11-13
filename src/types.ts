@@ -10,6 +10,11 @@ export type Todo = {
     willExpire?: boolean
 }
 
+export const defaultTodo: Todo = {
+    content: "",
+    is_completed: false,
+}
+
 declare global {
     interface Window {
         env: {

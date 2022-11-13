@@ -9,7 +9,9 @@ import { TodoState } from "../../redux/Todos/types"
 import { usePagination } from "../../hooks/usePagination"
 import { useSearch } from "../../hooks/useSearch"
 import { Notification } from "../../components/Notification/Notification"
-import AddTodoButton from "../../components/AddTodoButton/AddTodoButton"
+
+import { TodoActionButton } from "../../components/TodoActionButton"
+import { defaultTodo } from "../../types"
 
 export const Todos = () => {
     const { todos, loading } = useSelector((state: { todos: TodoState }) => {
@@ -69,7 +71,10 @@ export const Todos = () => {
 
                         <br />
                         <div className="btn">
-                            <AddTodoButton />
+                            <TodoActionButton
+                                actionType="add"
+                                todo={defaultTodo}
+                            />
                         </div>
                         {paginationComponent}
                     </div>
